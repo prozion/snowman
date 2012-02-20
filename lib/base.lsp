@@ -18,9 +18,9 @@
     (replace "{LANG}" template LANG 1)
     (replace "{TITLE}" template TITLE 1)
     (replace "{CSS_FILE}" template CSS_FILE 1)
+    (replace "{SELF_CODE}" body (read-file "/home/denis/projects/snowman/lib/base.lsp") 1)
     (replace "{BODY}" template body 1)
     template)
-
 (define (build-css)
     (set 'template (read-file RESET_CSS_FILE))
     template)
