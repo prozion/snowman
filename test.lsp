@@ -2,7 +2,7 @@
 
 (load "lib/base.lsp")
 
-(set 'DIR "temp1")
+(set 'DIR "tmp1")
 
 (Base:init
     '((Base:dir DIR)))

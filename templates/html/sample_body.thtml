@@ -1,0 +1,7 @@
+<h1>Hello world!</h1>
+
+<p>Here is a part of a code that generates this page:</p>
+
+<p>
+    <pre>{SELF_CODE}</pre>
+</p>
