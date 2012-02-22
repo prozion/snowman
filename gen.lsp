@@ -1,5 +1,20 @@
 #!/usr/bin/newlisp
 
+;; How to launch gen.lsp
+;; $ ./gen.lsp mytemplate.lsp template_folder
+;; mytemplate.lsp will only describe the visual aspect of the html page. Generation issues will be responsibility of gen.lsp
+
+;; Suggested structure of generated template :
+;;
+;; <template_folder>/
+;; |___images/
+;;     |___background.png
+;;     |___image1.jpg
+;;     ...
+;; |___styles.css
+;; |___functions.js
+;; |___index.html
+
 (context 'Base)
 
 (set 'CSS_FILE "styles.css")
