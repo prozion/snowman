@@ -42,22 +42,13 @@
     (extend __css (read-file RESET_CSS_FILE))
 
     (dolist (pattern (rest (args)))
-        (println pattern)
         (eval pattern))
 
-    (println "@lang: " @lang) 
-    (println "base.lsp: __html: " __html)
-
     (set 'html_base (read-file BASE_HTML_FILE))
-    (println "base.lsp: html_base 1:" html_base)
     (replace "\\[LANG\\]" html_base @lang 1)
-    (println "base.lsp: html_base 2:" html_base)
     (replace "\\[TITLE\\]" html_base @title 1)
-    (println "base.lsp: html_base 3:" html_base)
     (replace "\\[CSS_FILE\\]" html_base @css_file 1)
-    (println "base.lsp: html_base 4:" html_base)
     (set 'html_res (replace "\\[BODY\\]" html_base __html 1))
-    (println "base.lsp: html_res: " html_res)
 
     (make-dir @dir)
     (make-dir (string @dir "/" @imagedir))
