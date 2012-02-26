@@ -6,5 +6,5 @@
 (base 
     '((dir "tmp1") (stylesheet "styles.css") (title "Testing"))
     (background-image 
-        '((title "Background Image") (image "/home/denis/tmp/heading2.jpg") (width "250px") (height "76px"))))
+        '((title "Background Image") (image "/home/denis/tmp/heading2.jpg") )))
 
