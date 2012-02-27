@@ -19,7 +19,7 @@
     (if (nil? value) (set 'value default_value))
     value)
 
-;; '((dir "new_template") (imagedir "images") (stylesheet "styles.css") (javascript "functions.js") (html "index.html") (lang "en") (title "Testing"))
+;; '((dir "new_template") (imagedir "images") (stylesheet "styles.css") (javascript "functions.js") (html "index.html") (lang "en") (title "Testing") (class_prefix "snw_"))
 (define-macro (base)
 
     (set 'param_assoc (args 0)) ;; parameters assoc-list
@@ -31,6 +31,7 @@
     (set '@html_file (get-by-key 'html param_assoc "index.html")) 
     (set '@lang (get-by-key 'lang param_assoc "en")) 
     (set '@title (get-by-key 'title param_assoc "Snowman generator")) 
+    (set '@class_prefix (get-by-key 'class_prefix param_assoc "snw_")) 
 
     (set '__html "")
     (set '__css "")
