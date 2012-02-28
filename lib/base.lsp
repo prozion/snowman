@@ -31,7 +31,8 @@
     (set '@html_file (get-by-key 'html param_assoc "index.html")) 
     (set '@lang (get-by-key 'lang param_assoc "en")) 
     (set '@title (get-by-key 'title param_assoc "Snowman generator")) 
-    (set '@class_prefix (get-by-key 'class_prefix param_assoc "snw_")) 
+    ; (set '@class_prefix (get-by-key 'class_prefix param_assoc "snw_")) gen-classname will be used instead
+    (set '@gennames '())
 
     (set '__html "")
     (set '__css "")

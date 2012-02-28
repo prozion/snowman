@@ -3,16 +3,10 @@
 (context 'Html)
 
 (define (tag tagname parameters body)
-    (set 'class (eval (lookup 'class parameters)))
-    (set 'style (eval (lookup 'style parameters)))
-    (set 'id (eval (lookup 'id parameters)))
-
-    (set 'tag_parameters (string
-        (if-not (nil? class) (string {class="} class {" }) "") 
-        (if-not (nil? style) (string {style="} class {" }) "") 
-        (if-not (nil? id) (string {id="} class {" }) ""))) 
-
-    (string {<} tagname { } tag_parameters {>} body {</} tagname {>}))
+    (set 'tag_parameters "")
+    (dolist (x (args))
+        (extend tag_parameters (string (x 0)) {="} (string (x 1)) {"})
+    (string {<} tagname { } tag_parameters {>} body {</} tagname {>})))
 
 (define-macro (div params body)
     (tag "div" (eval params) (eval body)))
