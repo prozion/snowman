@@ -1,14 +1,25 @@
 (load "lib/misc.lsp")
 
-(context 'Html)
-
-(define (tag tagname parameters body)
+(context 'tag)
+(define-macro (tag:tag tagname parameters body)
     (set 'tag_parameters "")
-    (dolist (x (args))
-        (extend tag_parameters (string (x 0)) {="} (string (x 1)) {"})
-    (string {<} tagname { } tag_parameters {>} body {</} tagname {>})))
+    (set 'pars (eval parameters))
+    (dolist (x pars)
+        (extend tag_parameters (string (term (x 0)) {="} (string (x 1)) {"})))
+    (set 'res (string {<} tagname { } tag_parameters {>} (eval body) {</} tagname {>}))
+    res)
+(context MAIN)
 
-(define-macro (div params body)
+(context 'Html)
+(define-macro (block params body)
+    (set 'params (eval params))
+    (set 'body (eval body))
+    (tag @default_block_element params (eval body)))
+
+(define-macro (inline params body)
+    (tag @default_inline_element (eval params) (eval body)))
+
+(define-macro (diV params body)
     (tag "div" (eval params) (eval body)))
 
 (define-macro (span params body)

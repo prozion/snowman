@@ -6,33 +6,35 @@
 
 (load "lib/misc.lsp") ;; load (filename)
 (load "lib/html.lsp")
+(load "lib/css.lsp")
 
 ;; args: '((image "heading2.jpg") [(width "250px") (height "76px") (nostyle) (element "div")])
 (define (background-image)
 
-    (set 'image_location (eval (lookup 'image (args 0)))) 
-    (set 'imagename (filename image_location))
-    (set 'new_image_location (string @dir "/" @imagedir "/" imagename))
-    (copy-file image_location new_image_location)
+    (set 'start_image_absolute (eval (lookup 'image (args 0)))) 
+    (set 'imagename (filename start_image_absolute))
+    (set 'used_image_relative (image-path imagename))
 
     (set 'width (eval (lookup 'width (args 0))))
     (set 'height (eval (lookup 'height (args 0))))
 
     (set 'nostyle (eval (lookup 'nostyle (args 0))))
     (set 'element (eval (lookup 'element (args 0))))
-    (if (nil? element) (set 'element "div"))
+    (if (nil? element) (set 'element @default_block_element))
 
     ;; if width or height are not given, use image size autodection
     (when (or (nil? width) (nil? height))
         (load "lib/img/imagemagick.lsp")
-        (set 'img_sizes (Img:get-size image_location))
+        (set 'img_sizes (Img:get-size start_image_absolute))
         (set 'width (string (img_sizes 0) "px"))
         (set 'height (string (img_sizes 1) "px"))) 
 
-    (extend __html (Html:tag element '() ""))
-    (if-not (nostyle)
-        (extend __css (string element "{ background:url('" @imagedir "/" imagename "') no-repeat; width:" width "; height:" height "; }")))
-    (extend __images '(image)))
+    (set 'classname (genname))
+
+    (extend __html (Html:block (list (list 'class classname)) ""))
+    (extend __css (Css:rule (Css:selector (Css:. classname)) (list (list 'background-image used_image_relative) '(background-repeat "no-repeat") (list 'width width) (list 'height height))))
+    (extend __images (list (list start_image_absolute used_image_relative))))
+
    
 
 

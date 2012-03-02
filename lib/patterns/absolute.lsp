@@ -8,6 +8,7 @@
 ; *.absolute { position:absolute; top:10px; left:10px; } 
 
 (load "lib/html.lsp")
+(load "lib/css.lsp")
 (load "lib/misc.lsp")
 
 ;; args: '((top "10px") (left "10px") [(width "100px") (height "50px") (text_inner "Inner") (text_outer "Outer")])
@@ -24,15 +25,16 @@
     (set 'text_outer (eval (lookup 'text_outer (args 0))))
     (when (nil? text_outer) (set 'text_outer ""))    
 
-    (set 'class_positioned (string (gen-classname)))
-    (set 'class_absolute (string (gen-classname))
+    (set 'classname1 (string (genname)))
+    (set 'classname2 (string (genname))
 
-    (extend __html (Html:div '((class class_positioned)) 
+    (extend __html (Html:div '((class classname1)) 
                         (string text_outer 
-                        (Html:span '((class class_absolute)) 
+                        (Html:span '((class classname2)) 
                             text_inner))))
-    (extend __css ( string "*." class_positioned " { position:relative; overflow:hidden; } " 
-                           "*." class_absolute " { position:absolute; top:" top "; left:" left "; " width "; " height "; }" )))
+
+    (extend __css (Css:rule (Css:selector (Css:. classname1)) '((position "relative") (overflow "hidden"))))
+    (extend __css (Css:rule (Css:selector (Css:. classname2)) (list '(position "absolute") (list 'top top) (list 'left) (list 'width width) (list 'height height))))) 
    
 
 

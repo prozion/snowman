@@ -33,11 +33,13 @@
     (set '@title (get-by-key 'title param_assoc "Snowman generator")) 
     ; (set '@class_prefix (get-by-key 'class_prefix param_assoc "snw_")) gen-classname will be used instead
     (set '@gennames '())
+    (set '@default_block_element "div")
+    (set '@default_inline_element "span")
 
     (set '__html "")
     (set '__css "")
     (set '__js "")
-    (set '__images '())
+    (set '__images nil)
 
     (set 'BASE_HTML_FILE "templates/html/base.thtml")
     (set 'RESET_CSS_FILE "templates/css/reset.tcss")
@@ -54,6 +56,10 @@
 
     (make-dir @dir)
     (make-dir (string @dir "/" @imagedir))
+    
+    (dolist (i __images)
+        (copy-file (i 0) (string @dir "/" (i 1))))
+
     (write-file (string @dir "/" @html_file) html_res)
     (write-file (string @dir "/" @css_file) __css)
     (write-file (string @dir "/" @js_file) __js)
