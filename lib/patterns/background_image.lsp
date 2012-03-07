@@ -11,6 +11,8 @@
 ;; args: '((image "heading2.jpg") [(width "250px") (height "76px") (nostyle) (element "div")])
 (define (background-image)
 
+    (set 'PNAME "Background image")
+
     (set 'start_image_absolute (eval (lookup 'image (args 0)))) 
     (set 'imagename (filename start_image_absolute))
     (set 'used_image_relative (image-path imagename))
@@ -31,7 +33,13 @@
 
     (set 'classname (genname))
 
-    (extend __html (Html:block (list (list 'class classname)) ""))
+    (extend __html 
+        (start-comment PNAME)
+        (Html:block 
+            (list (list 'class classname)) 
+            "")
+        (end-comment PNAME))
+
     (extend __css (Css:rule (Css:selector (Css:. classname)) (list (list 'background-image used_image_relative) '(background-repeat "no-repeat") (list 'width width) (list 'height height))))
     (extend __images (list (list start_image_absolute used_image_relative))))
 

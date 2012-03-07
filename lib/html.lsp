@@ -4,9 +4,12 @@
 (define-macro (tag:tag tagname parameters body)
     (set 'tag_parameters "")
     (set 'pars (eval parameters))
-    (dolist (x pars)
-        (extend tag_parameters (string (term (x 0)) {="} (string (x 1)) {"})))
-    (set 'res (string {<} tagname { } tag_parameters {>} (eval body) {</} tagname {>}))
+    (set 'evalbody (eval body))
+    (if (nil? evalbody) (set 'evalbody ""))
+    (if-not (nil? pars)
+        (dolist (x pars)
+            (extend tag_parameters (string { } (term (x 0)) {="} (string (x 1)) {"}))))
+    (set 'res (string {<} (eval tagname) tag_parameters {>} evalbody {</} (eval tagname) {>}))
     res)
 (context MAIN)
 
@@ -14,10 +17,13 @@
 (define-macro (block params body)
     (set 'params (eval params))
     (set 'body (eval body))
-    (tag @default_block_element params (eval body)))
+    (string 
+        "\n"
+        (tag MAIN:@default_block_element params (eval body))
+        "\n"))
 
 (define-macro (inline params body)
-    (tag @default_inline_element (eval params) (eval body)))
+    (tag MAIN:@default_inline_element (eval params) (eval body)))
 
 (define-macro (diV params body)
     (tag "div" (eval params) (eval body)))

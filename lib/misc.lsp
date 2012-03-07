@@ -20,3 +20,9 @@
 
 (define (image-path imagename)
     (return (string @imagedir "/" imagename)))
+
+; pattern comments wrap the html code of pattern:
+(define (start-comment pattern_name)
+    (string "\n<!-- Start of " pattern_name " pattern -->"))
+(define (end-comment pattern_name)
+    (string "<!-- End of " pattern_name " pattern -->\n"))

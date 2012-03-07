@@ -10,8 +10,10 @@
 (load "lib/css.lsp")
 (load "lib/img/imagemagick.lsp")
 
-;; args: '((image "heading_2.jpg") [(text "Heading 2")])
+;; args: '((image "heading2.jpg") [(text "Heading 2")])
 (define (text-replacement)
+
+    (set 'PNAME "Text replacement")
 
     (set 'start_image_absolute (eval (lookup 'image (args 0)))) 
     (set 'imagename (filename image_location))
@@ -19,8 +21,8 @@
 
     (set 'text (eval (lookup 'text (args 0))))
     (when (nil? text) (set 'text ""))    
-    (set 'img_width (string ((Img:get-size start_image_absolute) 0)) "px")
-    (set 'img_height (string ((Img:get-size start_image_absolute) 1)) "px")
+    (set 'img_width (string ((Img:get-size start_image_absolute) 0) "px"))
+    (set 'img_height (string ((Img:get-size start_image_absolute) 1) "px"))
     (set 'idname (genname))
 
     ;; The idea how to combine two patterns into the higher pattern?
@@ -28,8 +30,17 @@
         ;(list 'outer_text text)) 
         ;(background-image '((nostyle) (element "div")))))
     
-    (extend __html (Html:blockп(list (list id idname)) (string text (Html:inline))))
+    ;strange whitespace that gives an error: <п>п
+    (extend __html 
+        (start-comment PNAME)
+        (Html:block 
+            (list (list 'id idname)) 
+            (string 
+                text 
+                (Html:inline)))
+        (end-comment PNAME))
+
 
     (extend __css (Css:rule (Css:selector (Css:id idname)) (list '(position "relative") (list 'width img_width) (list 'height img_height) '(overflow "hidden"))))
     (extend __css (Css:rule (Css:selector (Css:id idname) (Css:inline)) (list '(position "absolute") (list 'width img_width) (list 'height img_height) '(left "0px") '(top "0px") (list 'background-image used_image_relative) '(background-repeat "no-repeat"))))
-    (extend __images (list start_image_absolute used_image_relative))
+    (extend __images (list (list start_image_absolute used_image_relative))))

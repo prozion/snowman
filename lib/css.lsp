@@ -19,8 +19,8 @@
 (define (id str) (string "#" str))
 (define (-> str) (string ">" str))
 (define (pseudo str) (string ":" str))
-(define (block) @default_block_element) 
-(define (inline) @default_inline_element)
+(define (block) MAIN:@default_block_element) 
+(define (inline) MAIN:@default_inline_element)
 
 ;; (selector "h1" (. "myclass1") (id "myid2) "a" (pseudo "hover"))
 (define-macro (selector)
@@ -32,7 +32,7 @@
     res)
 
 (define (rule selector_str assoc_list) 
-    (set 'res (string selector_str " {" (make-str assoc_list) "}"))
+    (set 'res (string selector_str " {" (make-str assoc_list) "}\n"))
     res)
 
 

@@ -59,7 +59,7 @@
     
     (dolist (i __images)
         (copy-file (i 0) (string @dir "/" (i 1))))
-
+ 
     (write-file (string @dir "/" @html_file) html_res)
     (write-file (string @dir "/" @css_file) __css)
     (write-file (string @dir "/" @js_file) __js)
