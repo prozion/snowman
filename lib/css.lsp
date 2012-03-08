@@ -15,7 +15,7 @@
         (extend res (string key ":" value "; ")))
     res)
 
-(define (. str) (string "." str))
+(define (. str) (string "." str)) (set 'class .) ;; synonim for .
 (define (id str) (string "#" str))
 (define (-> str) (string ">" str))
 (define (pseudo str) (string ":" str))
