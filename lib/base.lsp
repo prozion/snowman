@@ -13,55 +13,59 @@
 ;; |___functions.js
 ;; |___index.html
 
-(define (get-by-key key assoc_list default_value)
-    (set 'value (lookup key (eval assoc_list)))
-    (if (nil? default_value) (set 'default_value ""))
-    (if (nil? value) (set 'value default_value))
-    value)
+(load "lib/misc.lsp")
+(load "lib/css.lsp")
+(load "lib/patterns/inline.lsp")
+(load "lib/img/imagemagick.lsp")
 
-;; '((dir "new_template") (imagedir "images") (stylesheet "styles.css") (javascript "functions.js") (html "index.html") (lang "en") (title "Testing") (class_prefix "snw_"))
+; (base (@dir "tmp") (P:background-image (image "image.jpg")))
 (define-macro (base)
-
-    (set 'param_assoc (args 0)) ;; parameters assoc-list
-        
-    (set '@dir (get-by-key 'dir param_assoc "new_template")) 
-    (set '@imagedir (get-by-key 'imagedir param_assoc "images")) 
-    (set '@css_file (get-by-key 'stylesheet param_assoc "styles.css")) 
-    (set '@js_file (get-by-key 'javascript param_assoc "functions.js")) 
-    (set '@html_file (get-by-key 'html param_assoc "index.html")) 
-    (set '@lang (get-by-key 'lang param_assoc "en")) 
-    (set '@title (get-by-key 'title param_assoc "Snowman generator")) 
-    ; (set '@class_prefix (get-by-key 'class_prefix param_assoc "snw_")) gen-classname will be used instead
-    (set '@gennames '())
-    (set '@default_block_element "div")
-    (set '@default_inline_element "span")
-
     (set '__html "")
     (set '__css "")
     (set '__js "")
-    (set '__images nil)
+    ;(set '__img nil)
 
     (set 'BASE_HTML_FILE "templates/html/base.thtml")
     (set 'RESET_CSS_FILE "templates/css/reset.tcss")
+    (set '@gennames '())
+    (set '@block "div")
+    (set '@inline "span")
+    (set '@comments true) ; comments on/off    
+    (bind
+        '((@dir "new_template")
+          (@imagedir "images")
+          (@stylesheet "styles.css")
+          (@js_styles "functions.js")
+          (@html_file "index.html")
+          (@lang "en")
+          (@title "Snowman generator")))
+    ; read (key value)'s from the body of base, that are not functions         
+    (println "list? (args): " (list? (args)) " list? (clean P:function? (args)): " (((clean P:function? (args)) 0) 0))
+    (bind (clean P:function? (args)))
+
+    (println "base.lsp: (args): " (args))
+    (println "base.lsp: ((clean P:function? (args))): " (clean P:function? (args)))
+ 
+
     (extend __css (read-file RESET_CSS_FILE))
 
-    (dolist (pattern (rest (args)))
-        (eval pattern))
-
+    ; eval cycle
+    (map eval (filter P:function? (args)))
+                
     (set 'html_base (read-file BASE_HTML_FILE))
     (replace "\\[LANG\\]" html_base @lang 1)
     (replace "\\[TITLE\\]" html_base @title 1)
-    (replace "\\[CSS_FILE\\]" html_base @css_file 1)
+    (replace "\\[CSS_FILE\\]" html_base @stylesheet 1)
     (set 'html_res (replace "\\[BODY\\]" html_base __html 1))
 
-    (make-dir @dir)
-    (make-dir (string @dir "/" @imagedir))
-    
-    (dolist (i __images)
-        (copy-file (i 0) (string @dir "/" (i 1))))
+    ;(println "base.lsp: html_res: " html_res) 
+    ;(make-dir @dir)
+    ;(make-dir (string @dir "/" @imagedir))
+    ;(dolist (i __img)
+    ;   (copy-file (i 0) (string @dir "/" (i 1))))
  
     (write-file (string @dir "/" @html_file) html_res)
     (write-file (string @dir "/" @css_file) __css)
-    (write-file (string @dir "/" @js_file) __js)
+    ;(write-file (string @dir "/" @js_file) __js)
 
     (exit)) 

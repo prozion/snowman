@@ -10,7 +10,9 @@
 (load "lib/css.lsp")
 (load "lib/img/imagemagick.lsp")
 
-;; args: '((image "heading2.jpg") [(text "Heading 2")])
+; (text-replacement
+;   '((image "~/tmp/heading2.jpg"))
+;   "Heading 2")
 (define (text-replacement)
 
     (set 'PNAME "Text replacement")
@@ -19,8 +21,7 @@
     (set 'imagename (filename image_location))
     (set 'used_image_relative (image-path imagename))
 
-    (set 'text (eval (lookup 'text (args 0))))
-    (when (nil? text) (set 'text ""))    
+    (set 'text (if (>= (length (args)) 2) (args 1) ""))
     (set 'img_width (string ((Img:get-size start_image_absolute) 0) "px"))
     (set 'img_height (string ((Img:get-size start_image_absolute) 1) "px"))
     (set 'idname (genname))

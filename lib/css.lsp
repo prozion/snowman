@@ -1,39 +1,37 @@
-(load "lib/misc.lsp")
-
 (context 'Css)
 
-(set 'parameters '("background" "width" "height"))
+; (Css ((. classname) (id idname) MAIN:@inline) ((width "250px") (height "100px")))
+(define-macro (Css:Css selector)
+    (set 'buf nil)
+    (dolist (_x selector)
+        (when (symbol? _x) (extend buf (eval _x) " "))
+        (when (string? _x) (extend buf _x " "))
+        (when (list? _x)
+            (case (string (_x 0))
+               ("." (extend buf "." (eval (_x 1)) " "))
+               ("id" (extend buf "#" (eval (_x 1)) " ")))))
+    (extend buf "{ ")
+    (set '_args (args))
+    (catch
+        (begin 
+            (when (null? (args)) (throw ""))
+            (set '_buf nil)
+            (if (symbol? (args 0))
+                (set '_al (eval (args 0)))
+                (set '_al (args)))
+            (dolist (_x _al)
+                (extend _buf (string (term (_x 0)) ":"))
+                (dolist (_y (rest _x))
+                    (extend _buf (eval _y) " "))
+                (set '_buf (chop _buf))
+                (extend _buf "; "))
+            (throw _buf))
+        'res)
+    (extend buf res)
+    (extend buf "}\n" )
+    (extend MAIN:__css buf))
 
-(define (make-str assoc_list)
-    (set 'res " ")
-    (dolist (x assoc_list)
-        (set 'value (x 1))
-        (set 'key (term (x 0)))
-        ;; exceptions
-        (if (= key "background-image") (set 'value (string "url('" value "')")))
-        ;; add property
-        (extend res (string key ":" value "; ")))
-    res)
-
-(define (. str) (string "." str)) (set 'class .) ;; synonim for .
-(define (id str) (string "#" str))
-(define (-> str) (string ">" str))
-(define (pseudo str) (string ":" str))
-(define (block) MAIN:@default_block_element) 
-(define (inline) MAIN:@default_inline_element)
-
-;; (selector "h1" (. "myclass1") (id "myid2) "a" (pseudo "hover"))
-(define-macro (selector)
-    (set 'res "")
-    (dolist (x (args))
-        (if-not (or (empty? res) (= (x 0) 'pseudo)) (extend res " "))
-        (if (list? x) (extend res (eval x)))
-        (if (string? x) (extend res (string x " "))))
-    res)
-
-(define (rule selector_str assoc_list) 
-    (set 'res (string selector_str " {" (make-str assoc_list) "}\n"))
-    res)
-
+(define (path url)
+    (string "url('" url "')")) 
 
 (context MAIN)

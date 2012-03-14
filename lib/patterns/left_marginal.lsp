@@ -23,16 +23,17 @@
     (when (nil? margin) (set 'margin "0px"))    
     (set 'classname (genname) 'classname_heading (string classname "-heading"))
     (set 'atext (if (>= (length (args)) 2) (args 1) ""))
+    (set 'heading_text (eval (lookup 'heading_text (args 0))))
 
     (extend __html 
         (start-comment PNAME)
         (Html:block 
             (list (list 'class classname)) 
             (string 
-                (Html:block
+                (Html:inline
                    (list (list 'class classname_heading))
-                    "Heading")
-                    atext))
+                   heading_text)
+                atext))
         (end-comment PNAME))
 
     (extend __css (Css:rule 
