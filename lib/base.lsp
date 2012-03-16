@@ -15,8 +15,6 @@
 
 (load "lib/misc.lsp")
 (load "lib/css.lsp")
-(load "lib/patterns/inline.lsp")
-(load "lib/img/imagemagick.lsp")
 
 ; (base (@dir "tmp") (P:background-image (image "image.jpg")))
 (define-macro (base)
@@ -40,12 +38,8 @@
           (@lang "en")
           (@title "Snowman generator")))
     ; read (key value)'s from the body of base, that are not functions         
-    (println "list? (args): " (list? (args)) " list? (clean P:function? (args)): " (((clean P:function? (args)) 0) 0))
-    (bind (clean P:function? (args)))
-
-    (println "base.lsp: (args): " (args))
-    (println "base.lsp: ((clean P:function? (args))): " (clean P:function? (args)))
- 
+            
+    (bind (clean P:function? (clean string? (args))))
 
     (extend __css (read-file RESET_CSS_FILE))
 
@@ -58,14 +52,13 @@
     (replace "\\[CSS_FILE\\]" html_base @stylesheet 1)
     (set 'html_res (replace "\\[BODY\\]" html_base __html 1))
 
-    ;(println "base.lsp: html_res: " html_res) 
-    ;(make-dir @dir)
-    ;(make-dir (string @dir "/" @imagedir))
+    (make-dir @dir)
+    (make-dir (string @dir "/" @imagedir))
     ;(dolist (i __img)
     ;   (copy-file (i 0) (string @dir "/" (i 1))))
- 
+    
     (write-file (string @dir "/" @html_file) html_res)
-    (write-file (string @dir "/" @css_file) __css)
+    (write-file (string @dir "/" @stylesheet) __css)
     ;(write-file (string @dir "/" @js_file) __js)
 
     (exit)) 

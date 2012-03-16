@@ -15,6 +15,11 @@
     (extend @gennames (list classname))
     (return classname))
 
+; detect the type of object
+(define-macro (type obj)
+    (println (map (fn(x) ((eval x) (eval obj))) 
+         '(array? atom? context? directory? empty? file? float? global? integer? lambda? legal? list? macro? nil? null? number? primitive? protected? quote? string? symbol? true? zero? ))))
+
 ; find a value in assoc list by a key
 (define (findval key assoc_list)
     (set 'retval (eval (lookup key assoc_list)))
@@ -61,32 +66,26 @@ res)
         (begin
             (when (= (length (args)) 0) (throw nil))
             (when (list? (args 0))
-                ;(println "1")
                 (set '_v (eval (args 0 0))))
             (when (quote? (args 0))
-                ;(println "2")
                 (set '_v ((eval (args 0)) 0)))
             (when (symbol? (args 0))
-                ;(println "3")
                 (set '_v (eval ((eval (args 0)) 0))))
             (set '_symable (not (find " " _v)))
-            (set '_vv (if _symable (sym (term _v) (sym (term _v))) nil))
-            (set '_v (eval _v) '_vv (eval _vv))
+            (set '_v (eval _v)) 
             (if (or
                 (lambda? _v)
-                (lambda? _vv)
                 ; (protected? _v) if we need to count such forms like (println "...") or (+ 2 2)
-                (macro? _v) 
-                (macro? _vv)) 
+                (macro? _v)) 
             (throw true) (throw nil)))
         '_res)
         ;(println "misc.lsp: function: _v: " _v ", ?: " (macro? _v) "/" (lambda? _v))
-        ;(println "misc.lsp: function: _vv: " _vv ", ?: " (macro? _vv) "/" (lambda? _vv))
     _res)
 
-(define (bind-vars)
-    (set 'ctx (args 1))
-    (bind (map (fn(x) (list (sym (term (x 0)) ctx) (eval (x 1)))) (args 0))))
+(define (bind-vars al ctx)
+    ;(println "bind-vars: " al)
+    (when (null? ctx) (set 'ctx 'P))
+    (bind (map (fn(x) (list (sym (term (x 0)) ctx) (eval (x 1)))) al)))
  
 ; pattern comments wrap the html code of pattern:
 (define (start-comment pattern_name)
@@ -109,8 +108,18 @@ res)
     (when text (html (eval text)))
     (when (and file (file? file)) (html (read-file file))))
 
-
 (define (append-buf l1 l2)
     (set 'buf (map (fn(_l1 _l2) (extend _l1 _l2)) l1 l2)))
+
+; generate string: name1='value1' name2='value2' ...
+(define (tagstr li)
+    (set 'res "")
+    (dolist (_x li)
+        ;(println "inline.lsp: tagstr: _x: " _x ", (eval _x): " (eval _x))
+        (set '_val (eval _x))
+        (when (not (null? _val)) (extend res (string (term _x) "='" _val "' "))))
+        (set 'res (chop res))
+    res)
+
 
 (context MAIN)

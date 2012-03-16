@@ -4,22 +4,20 @@
 ;
 ; div { background:url("heading2.jpg") no-repeat; width:250px; height:76px; }
 
-(load "lib/misc.lsp") 
-(load "lib/css.lsp")
+(load "lib/patterns/block.lsp")
+(load "lib/img/imagemagick.lsp")
 
 ;; (Background-image (image "heading2.jpg"))
-(context 'Background-image)
-(define-macro (Background-image:Background-image)
-    (set 'PNAME "Background image")
-    (P:bind-vars (args) (prefix '_))
-    ;(map set '(image width height) (Img image))
-    ;(println "background_image.lsp: image: " image)
-    (set 'classname (MAIN:genname))
+(context 'P)
+(define-macro (background-image)
+    (set 'PNAME "Background image" 'classname (MAIN:genname))
+    (bind-vars (args))
+    (map set '(image width height) (Img image))
+    (map set '(width height) (map (fn(x) (string (eval x) "px")) '(width height)))
 
     ;(P:start-comment PNAME)))
-    (Inline (class classname))
+    (block (class classname))
     ;(P:end-comment PNAME)))
 
-    ;(Css ((. classname)) (background (Css:path image) "no-repeat") (width width) (height height)))
-    buf)
+    (Css ((. classname)) (background (Css:path image) "no-repeat") (width width) (height height)))
 (context MAIN)

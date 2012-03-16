@@ -7,7 +7,7 @@
     (@dir "tmp1")
     (@stylesheet "styles.css")
     (@title "Testing")
-    (Background-image
+    (P:background-image
         (image "/home/denis/tmp/heading2.jpg")))
 
 ;(base 
