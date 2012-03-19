@@ -1,4 +1,25 @@
 ;; testing inline
 
-(assert-equal (+ 2 2) 4)
-(assert-equal (+ 2 2) (- 10 9))
+(load "lib/patterns/inline.lsp")
+
+(println "Testing inline.lsp")
+
+(set '__html "")
+(P:inline)
+(assert-equal __html "<span></span>")
+
+(set '__html "")
+(P:inline (class "classname"))
+(assert-equal __html "<span class='classname'></span>")
+
+(set '__html "")
+(P:inline (class "classname") (id "idname"))
+(assert-equal __html "<span class='classname' id='idname'></span>")
+
+;(set '__html "")
+;(P:inline (class "classname") (id "idname") (string "hello"))
+;(assert-equal __html "<span class='classname' id='idname'>hello</span>")
+
+(set '__html "")
+(P:inline (class "classname") (id "idname") "hello")
+(assert-equal __html "<span class='classname' id='idname'>hello</span>")

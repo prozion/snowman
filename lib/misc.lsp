@@ -65,27 +65,40 @@ res)
     (catch
         (begin
             (when (= (length (args)) 0) (throw nil))
-            (when (list? (args 0))
-                (set '_v (eval (args 0 0))))
-            (when (quote? (args 0))
-                (set '_v ((eval (args 0)) 0)))
-            (when (symbol? (args 0))
-                (set '_v (eval ((eval (args 0)) 0))))
-            (set '_symable (not (find " " _v)))
-            (set '_v (eval _v)) 
+            (set '_v (args 0))
+            (when (quote? _v) 
+                (set '_v (eval _v))
+                (when (null? _v) (throw nil)))
+            (when (list? _v) (set '_v (_v 0)))
+            (when (or (string? _v) (null? _v) (number? _v) (= 'true _v)) (throw nil))
+            (when (symbol? _v)
+                 (when (protected? _v) (throw true))
+                 (set '_v (eval _v))
+                 (when (null? _v) (throw nil)))
             (if (or
                 (lambda? _v)
-                ; (protected? _v) if we need to count such forms like (println "...") or (+ 2 2)
+                (protected? _v) ;if we need to count such forms like (println "...") or (+ 2 2)
                 (macro? _v)) 
             (throw true) (throw nil)))
         '_res)
-        ;(println "misc.lsp: function: _v: " _v ", ?: " (macro? _v) "/" (lambda? _v))
     _res)
+
+(define (paired? el)
+    (catch
+        (begin
+            (when (list? el)
+                (when (= (length el) 2) (throw true)))
+            (throw nil))
+        'res)
+    res)
 
 (define (bind-vars al ctx)
     ;(println "bind-vars: " al)
     (when (null? ctx) (set 'ctx 'P))
-    (bind (map (fn(x) (list (sym (term (x 0)) ctx) (eval (x 1)))) al)))
+    (set 'll (filter paired? al)) ; paired lists stay
+    (set 'll (filter (fn(x) (if (symbol? (x 0)) true nil)) ll)) ; lists with first element as symbol stay
+    (set 'nl (map (fn(x) (list (sym (term (x 0)) ctx) (eval (x 1)))) ll))
+    (bind nl)) 
  
 ; pattern comments wrap the html code of pattern:
 (define (start-comment pattern_name)
@@ -117,8 +130,7 @@ res)
     (dolist (_x li)
         ;(println "inline.lsp: tagstr: _x: " _x ", (eval _x): " (eval _x))
         (set '_val (eval _x))
-        (when (not (null? _val)) (extend res (string (term _x) "='" _val "' "))))
-        (set 'res (chop res))
+        (when (not (null? _val)) (extend res (string " " (term _x) "='" _val "'"))))
     res)
 
 
