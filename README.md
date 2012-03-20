@@ -16,8 +16,8 @@ The script will generate the templates, in each case for certain CMS, for exampl
 
 Currently inline pattern is ready. It looks like that:
 
-  (inline (class "blacktext") "Hello " (inline (class "redtext") "world"))
+    (inline (class "blacktext") "Hello " (inline (class "redtext") "world"))
 
 that parsed to:
 
-  <span class='blacktext'>Hello <span class='redtext'>world</span></span>
+    <span class='blacktext'>Hello <span class='redtext'>world</span></span>
