@@ -23,7 +23,7 @@
 (load "lib/patterns/inline.lsp")
 (assert-equal (filter P:function? '("hello" (P:inline) (string "hello") (somefunc) (width "200"))) '((P:inline) (string "hello") (somefunc)))
 
-(println "\npaired?")
+(println "paired?")
 (assert-true (P:paired? '(1 2)))
 (assert-true (P:paired? '(a b)))
 (assert-true (P:paired? '(string "hello")))
@@ -42,7 +42,7 @@
 (assert-nil (P:paired? nil))
 (assert-nil (P:paired? p))
 
-(println "\nbind-vars")
+(println "bind-vars")
 
 (context 'P)
 (set 'a nil 'b nil 'c nil)
