@@ -2,6 +2,12 @@
 
 (context 'Img)
 
+(define (Img:Img i_path)
+"(Img path width height newpath)"
+    (MAIN:setl '(width height) (get-size i_path))
+    (list (context) i_path width height (image-path (filename i_path))))
+
+;; protected
 ; extract filename from the path
 (define (filename path)
     (find {\/([\w\d\.]*)$} path 1)
@@ -17,12 +23,18 @@
     (set 'height ((parse size_part "x") 1))
     (list width height))
 
-(define (Img:Img initial_path)
-    (MAIN:setl '(width height) (get-size initial_path))
-    (set 'imagename (filename initial_path))
-    (set 'template_imagepath (image-path imagename))
-    (copy-file initial_path (string MAIN:@dir "/" template_imagepath))
-    (list template_imagepath width height))
+;; public
+(define (save-image)
+    (copy-file (self 1) (string MAIN:@dir "/" (self 4))))
+
+(define (get-width)
+    (self 2))
+
+(define (get-height)
+    (self 3))
+
+(define (get-path)
+    (self 4))
 
 (context MAIN)
 

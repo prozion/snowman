@@ -1,7 +1,7 @@
 (context 'Css)
 
 ; (Css ((. classname) (id idname) MAIN:@inline) ((width "250px") (height "100px")))
-(define-macro (Css:Css selector)
+(define-macro (rule selector)
     (set 'buf nil)
     (dolist (_x selector)
         (when (symbol? _x) (extend buf (eval _x) " "))

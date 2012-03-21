@@ -13,6 +13,8 @@
 ;; |___functions.js
 ;; |___index.html
 
+(new Class 'Img)
+
 (load "lib/misc.lsp")
 (load "lib/css.lsp")
 
@@ -23,8 +25,8 @@
     (set '__js "")
     ;(set '__img nil)
 
-    (set 'BASE_HTML_FILE "templates/html/base.thtml")
-    (set 'RESET_CSS_FILE "templates/css/reset.tcss")
+    (constant 'BASE_HTML_FILE "templates/html/base.thtml")
+    (constant 'RESET_CSS_FILE "templates/css/reset.tcss")
     (set '@gennames '())
     (set '@block "div")
     (set '@inline "span")

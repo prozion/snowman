@@ -2,7 +2,7 @@
 
 (load "lib/test/asserts.lsp")
 
-(set 'except '()) ; which files don't include to the test
+(set 'except '("misc.lsp" "inline.lsp" "block.lsp")) ; which files don't include to the test
 (set 'SF nil) ; successful flag: if true - print results of successful tests, nil - omit them
 (set '@test_total 0 '@test_ok 0 '@test_failed 0 '@test_files 0) ; global counters
 
