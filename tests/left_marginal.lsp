@@ -1,23 +1,16 @@
-;; Testing 'Absolute' pattern (p.37)
-; 
-; <div class="c1">
-;   <span class="c2">Sized Absolute</span>
+;; Testing 'Left marginal' pattern (p.39)
+
+; <div class="c1"> 
+;   <div class="c2">Heading</div>
+;   You want to excerpt an element and move it into the left margin.
 ; </div>
 ;
-; .c1 { position:relative; }
-; .c2 { position:absolute; top:10px; left:20px; } 
+; .c1 { position:relative; margin-left:200px; }
+; .c2 { position:absolute; left:-200px; top:0; margin:0; }
 
-; (P:absolute (top "10px") (left "20px") "Sized Absolute")
-
-; Remark: inside the pattern it is desirable to combine block and inline patterns
-; as e.g.
-; (block (class "c1") (inline "Sized Absolute"))
-; the real css then will look like
-; .c1 ...
-; .c1 <inline_tag> ...
 
 (load "lib/patterns/block.lsp")
-(load "lib/patterns/absolute.lsp")
+(load "lib/patterns/left_marginal.lsp")
 (load "lib/css.lsp")
 
 (setf __html "" __css "") 

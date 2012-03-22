@@ -1,23 +1,14 @@
-;; Testing 'Absolute' pattern (p.37)
-; 
-; <div class="c1">
-;   <span class="c2">Sized Absolute</span>
-; </div>
+;; Testing 'Text replacement' pattern (p.38)
+
+; <div id="h2">Heading 2 <span></span></div>
 ;
-; .c1 { position:relative; }
-; .c2 { position:absolute; top:10px; left:20px; } 
+; #h2 { position:relative; width:250px; height:76px; overflow:hidden; }
+; #h2 span { position:absolute; width:250px; height:76px; left:0px; top:0px; background:url("heading.jpg") no-repeat; }
 
-; (P:absolute (top "10px") (left "20px") "Sized Absolute")
-
-; Remark: inside the pattern it is desirable to combine block and inline patterns
-; as e.g.
-; (block (class "c1") (inline "Sized Absolute"))
-; the real css then will look like
-; .c1 ...
-; .c1 <inline_tag> ...
 
 (load "lib/patterns/block.lsp")
-(load "lib/patterns/absolute.lsp")
+(load "lib/patterns/text_replacement.lsp")
+(new Class 'Img) (load "lib/patterns/background_image.lsp")
 (load "lib/css.lsp")
 
 (setf __html "" __css "") 

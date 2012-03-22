@@ -2,8 +2,6 @@
 
 (load "lib/patterns/block.lsp")
 
-(println "Testing block.lsp")
-
 (set '__html "")
 (P:block)
 (assert-equal __html "<div></div>")

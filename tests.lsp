@@ -12,6 +12,7 @@
 (set 'lib_files (difference lib_files except))
 
 (dolist (l lib_files)
+    (println "*** Testing " l)
     (eval-string (read-file (string "tests/" l)))
     (inc @test_files))
 

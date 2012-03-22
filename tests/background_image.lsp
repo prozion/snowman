@@ -8,8 +8,6 @@
 (new Class 'Img) (load "lib/patterns/background_image.lsp")
 (load "lib/css.lsp")
 
-(println "Testing background_image.lsp")
-
 (setf __html "" __css "" @dir "testdir" @imagedir "image") 
 
 (setf $1 nil)

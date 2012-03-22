@@ -2,8 +2,6 @@
 
 (load "lib/patterns/inline.lsp")
 
-(println "Testing inline.lsp")
-
 (set '__html "")
 (P:inline)
 (assert-equal __html "<span></span>")

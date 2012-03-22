@@ -1,7 +1,5 @@
 (load "lib/misc.lsp")
 
-(println "Testing misc.lsp")
-
 ;; testing function?
 (println "function?")
 
