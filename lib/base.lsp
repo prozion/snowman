@@ -18,6 +18,10 @@
 (load "lib/misc.lsp")
 (load "lib/css.lsp")
 
+; global constants
+(set '@block "div") (constant (global '@block))
+(set '@inline "span") (constant (global '@inline))
+
 ; (base (@dir "tmp") (P:background-image (image "image.jpg")))
 (define-macro (base)
     (set '__html "")
@@ -28,8 +32,6 @@
     (constant 'BASE_HTML_FILE "templates/html/base.thtml")
     (constant 'RESET_CSS_FILE "templates/css/reset.tcss")
     (set '@gennames '())
-    (set '@block "div")
-    (set '@inline "span")
     (set '@comments true) ; comments on/off    
     (bind
         '((@dir "new_template")

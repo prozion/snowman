@@ -4,6 +4,7 @@
 ;
 ; div { background:url("heading2.jpg") no-repeat; width:250px; height:76px; }
 
+
 (load "lib/patterns/block.lsp")
 (load "lib/img/imagemagick.lsp")
 
