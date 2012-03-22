@@ -8,7 +8,7 @@
     (@stylesheet "styles.css")
     (@title "Testing")
     (P:background-image
-        (image "/home/denis/tmp/heading2.jpg")))
+        (image "tests/files/heading2.jpg")))
 
 ;(base 
 ;    '((dir "tmp1") (stylesheet "styles.css") (title "Testing"))

@@ -19,7 +19,7 @@
         (make-dir @dir)
         (make-dir (format "%s/%s" @dir @imagedir))))
 
-(P:background-image (image "/home/denis/tmp/heading2.jpg"))
+(P:background-image (image "tests/files/heading2.jpg"))
 (assert-like __html "<div class='c([0-9]+)'></div>")
 (set 'classname (string ".c" $1))
 ;; important! there is \n in the end of css rule, set it here too!
