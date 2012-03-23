@@ -1,37 +1,33 @@
 ;; Testing 'Absolute' pattern (p.37)
 ; 
-; <div class="c1">
-;   <span class="c2">Sized Absolute</span>
+; <div id="s1">
+;   <span id="s2">Sized Absolute</span>
 ; </div>
 ;
-; .c1 { position:relative; }
-; .c2 { position:absolute; top:10px; left:20px; } 
+; .s1 { position:relative; }
+; .s2 { position:absolute; top:10px; left:20px; } 
 
 ; (P:absolute (top "10px") (left "20px") "Sized Absolute")
 
 ; Remark: inside the pattern it is desirable to combine block and inline patterns
 ; as e.g.
-; (block (class "c1") (inline "Sized Absolute"))
+; (block (id "s1") (inline (id "s2") "Sized Absolute"))
 ; the real css then will look like
 ; .c1 ...
 ; .c1 <inline_tag> ...
 
-(load "lib/patterns/block.lsp")
 (load "lib/patterns/absolute.lsp")
-(load "lib/css.lsp")
 
-(setf __html "" __css "") 
+(setf __html "" __css "" $1 nil)
 
-(setf $1 nil)
-
+; EXP:
 (P:absolute (top "10px") (left "20px") "Sized Absolute")
 
-(assert-like __html (format "<%s class='(%s)'>\n<%s>Sized Absolute</%s>\n</%s>\n" @block "c[0-9]+" @inline @inline @block))
-(setf classname (string "." $1)) 
-;; important! there is \n in the end of css rule, set it here too!
-(set 'css_str_1 (format "%s { position:relative; }\n" classname))
-(set 'css_str_2 (format "%s %s { position:absolute; top:10px; left:20px; }\n" classname @inline))
-(assert-equal __css (append css_str_1 css_str_2))
+(assert-like __html "<div id='(s[0-9]+)'><span id='(s[0-9]+)'>Sized Absolute</span></div>")
+(setf idname1 (string "#" $1) idname2 (string "#" $2)) 
+(set 'css_str (format "%s { position:relative; }\n" idname1))
+(set 'css_str (append css_str (format "%s { position:absolute; top:10px; left:20px; }\n" idname2)))
+(assert-equal __css css_str)
 
 
 

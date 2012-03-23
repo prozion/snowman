@@ -1,4 +1,4 @@
-;; Testing'Marginal graphic dropcap' pattern (p.40)
+;; Testing 'Marginal graphic dropcap' pattern (p.40)
 
 ; <div class="c1"><span class="c2">M<span></span></span>arginal Graphic Dropcap. The letter M has been covered by the dropcap image. Screen readers read the text and visual users see the image. If the browser cannot display the dropcap image, the text becomes visible.</p>
 

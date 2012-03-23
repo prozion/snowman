@@ -11,7 +11,7 @@
 ;; (background-image (image "heading2.jpg"))
 (context 'P)
 (define-macro (background-image)
-    (set 'PNAME "Background image" 'classname (MAIN:genname))
+    (set 'PNAME "Background image" 'classname (genname))
     (bind-vars (args))
 
     (set 'img (Img image))

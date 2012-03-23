@@ -3,13 +3,16 @@
 (load "lib/test/asserts.lsp")
 (load "lib/base.lsp")
 
-;(set 'except '("misc.lsp" "inline.lsp" "block.lsp")) ; which files don't include to the test
-(set 'except '())
+(set 'except '("marginal_graphic_dropcap.lsp" "text_replacement.lsp" "left_marginal.lsp")) ; which files don't include to the test
+;(set 'except '())
+;(set 'include '("absolute.lsp")) ;..or directly what files to test 
 (set 'SF nil) ; successful flag: if true - print results of successful tests, nil - omit them
 (set '@test_total 0 '@test_ok 0 '@test_failed 0 '@test_files 0) ; global counters
 
 (set 'lib_files (filter (fn(x) (find "\.lsp$" x 1)) (directory "tests")))
 (set 'lib_files (difference lib_files except))
+
+(when (> (length include) 0) (set 'lib_files include))
 
 (dolist (l lib_files)
     (println "*** Testing " l)

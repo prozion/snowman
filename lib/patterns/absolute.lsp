@@ -7,14 +7,18 @@
 ; *.positioned { position:relative; }
 ; *.absolute { position:absolute; top:10px; left:10px; } 
 
-(load "lib/css.lsp")
-(load "lib/misc.lsp")
+(load "lib/patterns/block.lsp")
+(load "lib/patterns/inline.lsp")
 
 (context 'P)
 
-;; args: '((top "10px") (left "10px") [(width "100px") (height "50px") (text_inner "Inner") (text_outer "Outer")])
+; (P:absolute (top "10px") (left "20px") "Sized Absolute")
 (define-macro (absolute)
-    (set 'PNAME "Absolute"))
-
-     
+    (let (idname1 (genname) idname2 (genname) _txt (text-args (args)))
+        (bind-vars (args))    
+        (set 'txt _txt)
+        (block (id idname1) (inline (id idname2) txt))
+        (Css:rule ((id idname1)) (position "relative"))
+        (Css:rule ((id idname2)) (position "absolute") (top top) (left left))))
+    
 (context MAIN)

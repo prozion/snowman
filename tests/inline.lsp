@@ -37,3 +37,13 @@
 (set '__html "")
 (P:inline "outer" (P:inline (P:inline "very inner") "inner"))
 (assert-equal __html "<span>outer<span>inner<span>very inner</span></span></span>")
+
+(set '__html "" 'txt "some text")
+(P:inline txt)
+(assert-equal __html "<span>some text</span>") 
+
+(set '__html "" 'classname "classname2" 'idname "idname2" 'txt "some text")
+(P:inline (class "classname1") (id "idname1") txt)
+(assert-equal __html "<span class='classname1' id='idname1'>some text</span>")
+
+

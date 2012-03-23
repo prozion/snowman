@@ -71,6 +71,39 @@
 (MAIN:assert-equal C:b 2)
 (MAIN:assert-equal C:c 3)
 
+(context MAIN)
 
+(println "text-args")
+
+(define-macro (textargs-macro)
+    (text-args (args)))
+
+(define (textargs-func)
+    (text-args (args)))
+    
+(assert-equal (textargs-macro) "")
+(assert-equal (textargs-macro "hello") "hello")
+(assert-equal (textargs-macro "hello" " world") "hello world")
+(assert-equal (textargs-macro (+ 2 2) "hello") "hello")
+(assert-equal (textargs-macro (string "something")) "")
+(assert-equal (textargs-macro "hello" (+ 2 2) { world}) "hello world")
+(assert-equal (textargs-macro "") "")
+
+(assert-equal (textargs-func) "")
+(assert-equal (textargs-func "hello") "hello")
+(assert-equal (textargs-func "hello" " world") "hello world")
+(assert-equal (textargs-func (+ 2 2) "hello") "hello")
+(assert-equal (textargs-func (string "something")) "something")
+(assert-equal (textargs-func "hello" (+ 2 2) { world}) "hello world")
+(assert-equal (textargs-func "") "")
+
+(set 'txt "some text")
+(set 'num 5)
+(assert-equal (textargs-macro txt) "some text")
+(assert-equal (textargs-macro txt " etc") "some text etc")
+(assert-equal (textargs-macro (string "hello") txt " etc") "some text etc")
+(assert-equal (textargs-macro num txt " etc") "some text etc")
+(assert-equal (textargs-macro nil txt " etc") "some text etc")
+(assert-equal (textargs-macro txt "" " " ""  "etc") "some text etc")
 
 (context MAIN)

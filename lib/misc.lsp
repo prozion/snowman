@@ -11,9 +11,10 @@
     (define (genstring)
          (string (abs (crc32 (string (now) 6)))))
     (do-until (empty? (filter (curry = (list classname)) @gennames))
-        (set 'classname (append "c" (genstring))))
+        (set 'classname (append "s" (genstring))))
     (extend @gennames (list classname))
     (return classname))
+(global 'genname)
 
 ; detect the type of object
 (define-macro (type obj)
@@ -57,6 +58,18 @@ res)
     (dolist (_x al)
         (extend res (list (push (first _x) (rest _x)))))
     res)
+
+; find string arguments (string literals or string variables) in the arg list
+(define (text-args)
+    (define (stringarg? obj)
+        (catch
+            (if (atom? obj) 
+                (string? (eval obj))
+                nil)
+        'res)
+        (= res true))
+    (join (map eval (filter stringarg? (args 0)))))
+(global 'text-args)
 
 (context 'P)
 
@@ -110,16 +123,6 @@ res)
     (if MAIN:@comments
         (list (string "\n<!-- Start of " pattern_name " pattern -->") "" "" "")
          ""))
-
-(define-macro (html)
-    (dolist (_x (args))
-        (extend MAIN:__html (eval _x))))
-
-(define-macro (text)
-    (MAIN:setla '(text file) (MAIN:assoc-list (args)))
-    (when (and (> (length (args)) 0) (string? (args 0))) (html (args 0))) ; if argument is just a text (string)
-    (when text (html (eval text)))
-    (when (and file (file? file)) (html (read-file file))))
 
 (define (append-buf l1 l2)
     (set 'buf (map (fn(_l1 _l2) (extend _l1 _l2)) l1 l2)))

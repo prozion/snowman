@@ -21,12 +21,12 @@
 ; global constants
 (set '@block "div") (constant (global '@block))
 (set '@inline "span") (constant (global '@inline))
+(set (global '__html) "")
+(set (global '__css) "")
+(set (global '__js) "")
 
 ; (base (@dir "tmp") (P:background-image (image "image.jpg")))
 (define-macro (base)
-    (set '__html "")
-    (set '__css "")
-    (set '__js "")
     ;(set '__img nil)
 
     (constant 'BASE_HTML_FILE "templates/html/base.thtml")
