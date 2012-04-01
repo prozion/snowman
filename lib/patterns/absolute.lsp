@@ -1,11 +1,11 @@
 ;; 'Absolute' pattern (p.37)
 ; 
-; <div class="positioned">
-;   <span class="absolute">Sized Absolute</span>
+; <div id="idname1">
+;   <span id="idname2">Sized Absolute</span>
 ; </div>
 ;
-; *.positioned { position:relative; }
-; *.absolute { position:absolute; top:10px; left:10px; } 
+; #idname1 { position:relative; }
+; #idname2 { position:absolute; top:10px; left:10px; } 
 
 (load "lib/patterns/block.lsp")
 (load "lib/patterns/inline.lsp")

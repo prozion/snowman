@@ -3,9 +3,9 @@
 (load "lib/test/asserts.lsp")
 (load "lib/base.lsp")
 
-(set 'except '("marginal_graphic_dropcap.lsp" "text_replacement.lsp" "left_marginal.lsp")) ; which files don't include to the test
+(set 'except '("marginal_graphic_dropcap_test.lsp" "text_replacement_test.lsp" "left_marginal_test.lsp")) ; which files don't include to the test
 ;(set 'except '())
-;(set 'include '("absolute.lsp")) ;..or directly what files to test 
+;(set 'include '("absolute_test.lsp")) ;..or directly what files to test 
 (set 'SF nil) ; successful flag: if true - print results of successful tests, nil - omit them
 (set '@test_total 0 '@test_ok 0 '@test_failed 0 '@test_files 0) ; global counters
 
