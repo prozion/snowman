@@ -4,6 +4,7 @@
 (define-macro (rule selector)
     (set 'buf nil)
     (dolist (_x selector)
+        (when (quote? _x) (while (quote? _x) (set '_x (eval _x))))
         (when (symbol? _x) (extend buf (eval _x) " "))
         (when (string? _x) (extend buf _x " "))
         (when (list? _x)

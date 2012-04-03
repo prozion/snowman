@@ -12,7 +12,8 @@
  
 (load "lib/patterns/%s")
 
-(setf __html "" __css "" $1 nil)
+(setf __html "" __css "")
+(setf $1 nil $2 nil $3 nil $4 nil $5 nil $6 nil $7 nil $8 nil $9 nil)
 
 ;EXP:
 %s
@@ -36,9 +37,7 @@
     (let (idname1 (genname) _txt (text-args (args)))
         (bind-vars (args))
         ; html:
-        %s
-        ; css:
-        (Css:rule ((id idname1)) ())))
+        %s))
 
 (context MAIN)
 })
@@ -66,11 +65,16 @@
         (begin
             (bind (args))
             (when (null? name) (throw "Pattern name is not defined"))
-            (when (not (and (directory? "lib/patterns") (directory? "tests"))) (throw "Can't find library or test directory"))            
+            (when (not (and (directory? "lib/patterns") (directory? "tests"))) (throw "Can't find library or test directory!"))            
             (set 'function_name (replace { } (lower-case name) "_"))
             (set 'filename (string function_name ".lsp"))
-            (write-file (string "tests/" filename) (format test_template name (string page) (commentify html) (commentify css) filename (string example) html css))
-            (write-file (string "lib/patterns/" filename) (format code_template name (string page) (commentify html) (commentify css) (string example) function_name (string expr)))
+            (set 'filepath (string "lib/patterns/" function_name ".lsp"))
+            (set 'testfilepath (string "tests/" function_name "_test.lsp"))
+            (if-not (or (file? filepath) (file? testfilepath))
+                (begin
+                    (write-file testfilepath (format test_template name (string page) (commentify html) (commentify css) filename (string example) html css))
+                    (write-file filepath (format code_template name (string page) (commentify html) (commentify css) (string example) (replace "_" function_name "-") (string expr))))
+                (throw (string "One of " function_name " files already exists!")))
         )
         'err)
     err)

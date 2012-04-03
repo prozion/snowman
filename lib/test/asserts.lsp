@@ -49,6 +49,6 @@
             (when SF (println "regex-assert-equal: OK")))
         (begin 
             (inc @test_failed)
-            (println "ERROR: " x " evaluates to " evalx " that doesn't match " y)))))
+            (println "ERROR: " x " evaluates to " evalx " that doesn't match " evaly)))))
 
 

@@ -25,6 +25,14 @@
 (set (global '__css) "")
 (set (global '__js) "")
 
+(set (global '@imagedir) "images")
+(set (global '@stylesheet) "styles.css")
+(set (global '@javascript) "functions.js")
+(set (global '@dir) "_new_template")
+(set (global '@lang) "en")
+(set (global '@html_file) "index.html")
+(set (global '@title) "Snowman generator")
+
 ; (base (@dir "tmp") (P:background-image (image "image.jpg")))
 (define-macro (base)
     ;(set '__img nil)
@@ -33,16 +41,8 @@
     (constant 'RESET_CSS_FILE "templates/css/reset.tcss")
     (set '@gennames '())
     (set '@comments true) ; comments on/off    
-    (bind
-        '((@dir "new_template")
-          (@imagedir "images")
-          (@stylesheet "styles.css")
-          (@js_styles "functions.js")
-          (@html_file "index.html")
-          (@lang "en")
-          (@title "Snowman generator")))
+
     ; read (key value)'s from the body of base, that are not functions         
-            
     (bind (clean P:function? (clean string? (args))))
 
     (extend __css (read-file RESET_CSS_FILE))

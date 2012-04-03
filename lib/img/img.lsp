@@ -15,7 +15,7 @@
 
 ; return relative path to the image (imagename), this path can be used in template references
 (define (image-path imagename)
-    (string MAIN:@imagedir "/" imagename))
+    (string @imagedir "/" imagename))
 
 (define (get-size path)
     (set 'size_part ((parse ((exec (string "identify " path)) 0) " ") 2))
@@ -25,7 +25,7 @@
 
 ;; public
 (define (save-image)
-    (copy-file (self 1) (string MAIN:@dir "/" (self 4))))
+    (copy-file (self 1) (string @dir "/" (self 4))))
 
 (define (get-width)
     (self 2))

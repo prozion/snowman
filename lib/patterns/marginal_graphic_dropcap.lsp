@@ -1,21 +1,22 @@
-;; 'Marginal graphic dropcap' pattern (p.40)
-
-; <p class="indent"><span class="graphic-dropcap">M<span></span></span>arginal Graphic Dropcap. The letter M has been covered by the dropcap image. Screen readers read the text and visual users see the image. If the browser cannot display the dropcap image, the text becomes visible.</p>
-
-; *.indent { position:relative; margin-left:150px }
-; *.graphic-dropcap { position:absolute; width:120px; heigth:90px; left:-120px; top:0 }
-; *.graphic-dropcap span { position:absolute; width:120px; height:90px; margin:0; left:0; top:0; background:url("m.jpg") no-repeat; }
-
 (load "lib/misc.lsp")
 (load "lib/css.lsp")
 
+(load "lib/img/img.lsp") ; required to calculate width of the image
+(load "lib/patterns/left_marginal.lsp")
+(load "lib/patterns/text_replacement.lsp")
+
 (context 'P)
 
-;; (P:marginal-graphic-dropcap
-;;        (image "m.jpg") (fallback_text "M") (margin "200px") 
-;;        "arginal Graphic Dropcap. The letter M has been covered by the dropcap image. Screen readers read the text and visual users see the image. If the browser cannot display the dropcap image, the text becomes visible.")
+; (P:marginal-graphic-dropcap (image-margin "30px") (image "tests/files/m.jpg") (fallback-text "M") "arginal Graphic Dropcap.")
 (define (marginal-graphic-dropcap)
-    (set 'PNAME "Marginal graphic dropcap"))
+    (bind-args (args))
+    (set 'img (Img image))
+    ;(set 'text ())
+
+    (P:left-marginal 
+        (margin-left (+ image_width margin_from_image))
+        (P:text-replacement (image "tests/files/m.jpg") (fallback-text "M"))
+        text))
 
 (context MAIN)
 

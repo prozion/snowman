@@ -1,29 +1,23 @@
+
 ;; Testing 'Text replacement' pattern (p.38)
-
-; <div id="h2">Heading 2 <span></span></div>
 ;
-; #h2 { position:relative; width:250px; height:76px; overflow:hidden; }
-; #h2 span { position:absolute; width:250px; height:76px; left:0px; top:0px; background:url("heading.jpg") no-repeat; }
-
-
-(load "lib/patterns/block.lsp")
+;<div id='s[0-9]+'>Heading 2<span id='s[0-9]+'></span></div>
+;
+;   #s[0-9]+ { position:relative; width:250px; height:76px; overflow:hidden; } 
+;   #s[0-9]+ { position:absolute; width:250px; height:76px; left:0px; top:0px; background:url('heading2.jpg') no-repeat; }
+;
+ 
 (load "lib/patterns/text_replacement.lsp")
-(new Class 'Img) (load "lib/patterns/background_image.lsp")
-(load "lib/css.lsp")
 
-(setf __html "" __css "") 
+(setf __html "" __css "")
+(setf $1 nil $2 nil $3 nil $4 nil $5 nil $6 nil $7 nil $8 nil $9 nil)
 
-(setf $1 nil)
+;EXP:
+(P:text-replacement (image "tests/files/heading2.jpg") (fallback-text "Heading 2"))
 
-(P:absolute (top "10px") (left "20px") "Sized Absolute")
-
-(assert-like __html (format "<%s class='(%s)'>\n<%s>Sized Absolute</%s>\n</%s>\n" @block "c[0-9]+" @inline @inline @block))
-(setf classname (string "." $1)) 
-;; important! there is \n in the end of css rule, set it here too!
-(set 'css_str_1 (format "%s { position:relative; }\n" classname))
-(set 'css_str_2 (format "%s %s { position:absolute; top:10px; left:20px; }\n" classname @inline))
-(assert-equal __css (append css_str_1 css_str_2))
-
-
-
-
+(assert-like __html "<div id='s[0-9]+'>Heading 2<span id='s[0-9]+'></span></div>")
+(set 'css_str " 
+       #s[0-9]+ { position:relative; width:250px; height:76px; overflow:hidden; } 
+       #s[0-9]+ { position:absolute; width:250px; height:76px; left:0px; top:0px; background:url('heading2.jpg') no-repeat; }
+    ")
+(assert-like __css css_str)

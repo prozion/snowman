@@ -1,28 +1,26 @@
 ;; 'Background image' pattern (p.36)
 
-; <div></div>
+; <span></span>
 ;
-; div { background:url("heading2.jpg") no-repeat; width:250px; height:76px; }
+; span { background:url("heading2.jpg") no-repeat; width:250px; height:76px; }
 
 
-(load "lib/patterns/block.lsp")
-(load "lib/img/imagemagick.lsp")
+(load "lib/patterns/inline.lsp")
+(load "lib/img/img.lsp")
 
 ;; (background-image (image "heading2.jpg"))
 (context 'P)
 (define-macro (background-image)
-    (set 'PNAME "Background image" 'classname (genname))
-    (bind-vars (args))
+    (let (idname1 (genname))
+        (bind-vars (args))
 
-    (set 'img (Img image))
-    (:save-image img)
+        (set 'img (Img image))
+        (:save-image img)
 
-    (map set '(width height) (map (fn(x) (string (eval x) "px")) (list (:get-width img) (:get-height img))))
+        (map set '(width height) (map (fn(x) (string (eval x) "px")) (list (:get-width img) (:get-height img))))
 
-    ;(P:start-comment PNAME)))
-    (block (class classname))
-    ;(P:end-comment PNAME)))
+        (inline (id idname1))
 
-    (Css:rule ((. classname)) (background (Css:path (:get-path img)) "no-repeat") (width width) (height height)))
+        (Css:rule ((id idname1)) (background (Css:path (:get-path img)) "no-repeat") (width width) (height height))))
 
 (context MAIN)

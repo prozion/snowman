@@ -1,13 +1,17 @@
 (load "lib/misc.lsp")
 
-;; (P:block (class classname) (id idname) "some content")
+;; (P:block (class classname) (id idname) (t "some content"))
 (context 'P)
 (define-macro (block)
-    (let (class nil id nil _txt (text-args (args))) 
+    (let (class nil id nil)
         (bind-vars (clean function? (args)) (prefix '_))
         (extend __html (format "<%s%s>" @block (tagstr '(class id))))
-        (unless (empty? _txt) (extend __html _txt))
-        (map eval (filter function? (args)))
-        (extend __html (format "</%s>" @block))))
+        (dolist (x (args))
+            (when (and (list? x) (not (null? x)))
+                (cond
+                    ((= (term (x 0)) "t") (extend __html (string (eval (x 1)))))
+                    ((function? (x 0)) (eval x)))))
+        (extend __html (string "</" @block ">"))))
 
 (context MAIN)
+

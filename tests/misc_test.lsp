@@ -15,8 +15,10 @@
 (assert-true (P:function? (string "hello")))
 (assert-true (P:function? (somefunc)))
 (assert-true (P:function? (somefunc (+ 2 2) 5)))
-
 (assert-true (P:function? (+ 2 2)))
+
+(set 'a '(string "hello"))
+(assert-true (P:function? a))
 
 (load "lib/patterns/inline.lsp")
 (assert-equal (filter P:function? '("hello" (P:inline) (string "hello") (somefunc) (width "200"))) '((P:inline) (string "hello") (somefunc)))
