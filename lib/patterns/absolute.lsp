@@ -12,13 +12,14 @@
 
 (context 'P)
 
-; (P:absolute (top "10px") (left "20px") "Sized Absolute")
+; (P:absolute (top "10px") (left "20px") (t "Sized Absolute"))
 (define-macro (absolute)
-    (let (idname1 (genname) idname2 (genname) _txt (text-args (args)))
+    (let (idname1 (genname) idname2 (genname) t "" top 0 left 0) 
         (bind-vars (args))    
-        (set 'txt _txt)
-        (block (id idname1) (inline (id idname2) txt))
+        (set 'txt t)
+        (block (id idname1) (inline (id idname2) (t txt)))
         (Css:rule ((id idname1)) (position "relative"))
         (Css:rule ((id idname2)) (position "absolute") (top top) (left left))))
     
 (context MAIN)
+

@@ -16,7 +16,7 @@ The script will generate the templates, in each case for certain CMS, for exampl
 
 Currently inline pattern is ready. It looks like that:
 
-    (inline (class "blacktext") "Hello " (inline (class "redtext") "world"))
+    (inline (class "blacktext") (t "Hello ") (inline (class "redtext") (t "world")))
 
 that parsed to:
 

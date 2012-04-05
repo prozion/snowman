@@ -34,7 +34,7 @@
 
 ; %s
 (define-macro (%s)
-    (let (idname1 (genname) _txt (text-args (args)))
+    (let (idname1 (genname) t "")
         (bind-vars (args))
         ; html:
         %s))

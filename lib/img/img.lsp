@@ -4,7 +4,7 @@
 
 (define (Img:Img i_path)
 "(Img path width height newpath)"
-    (MAIN:setl '(width height) (get-size i_path))
+    (map set '(width height) (get-size i_path))
     (list (context) i_path width height (image-path (filename i_path))))
 
 ;; protected

@@ -13,11 +13,10 @@
 (setf $1 nil $2 nil $3 nil $4 nil $5 nil $6 nil $7 nil $8 nil $9 nil)
 
 ;EXP:
-(P:text-replacement (image "tests/files/heading2.jpg") (fallback-text "Heading 2"))
+(P:text-replacement (image "resources/tests/files/heading2.jpg") (fallback-text "Heading 2"))
 
 (assert-like __html "<div id='s[0-9]+'>Heading 2<span id='s[0-9]+'></span></div>")
-(set 'css_str " 
+(set 'css_str (string " 
        #s[0-9]+ { position:relative; width:250px; height:76px; overflow:hidden; } 
-       #s[0-9]+ { position:absolute; width:250px; height:76px; left:0px; top:0px; background:url('heading2.jpg') no-repeat; }
-    ")
+       #s[0-9]+ { position:absolute; background:url('" @imagedir "/heading2.jpg') no-repeat; width:250px; height:76px; left:0; top:0; }"))
 (assert-like __css css_str)

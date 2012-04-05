@@ -37,8 +37,8 @@
 (define-macro (base)
     ;(set '__img nil)
 
-    (constant 'BASE_HTML_FILE "templates/html/base.thtml")
-    (constant 'RESET_CSS_FILE "templates/css/reset.tcss")
+    (constant 'BASE_HTML_FILE "resources/templates/html/base.html")
+    (constant 'RESET_CSS_FILE "resources/templates/css/reset.css")
     (set '@gennames '())
     (set '@comments true) ; comments on/off    
 

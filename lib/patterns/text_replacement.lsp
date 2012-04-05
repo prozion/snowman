@@ -12,16 +12,16 @@
 
 (context 'P)
 
-; (P:text-replacement (image "tests/files/heading2.jpg") (fallback-text "Heading 2"))
+; (P:text-replacement (image "resources/tests/files/heading2.jpg") (fallback-text "Heading 2"))
 (define-macro (text-replacement)
-    (let (idname1 (genname) _txt (text-args (args)))
+    (let (idname1 (genname) fallback-text "")
         (bind-vars (args))
         (set 'img (Img image))
         (:save-image img)
         (setf imgwidth (string (:get-width img) "px")  imgheight (string (:get-height img) "px"))
-        ; html:
-        (P:block (id idname1) _txt (P:background-image (image image)))
         ; css:
-        (Css:rule ((id idname1)) (position "relative") (width imgwidth) (height imgheight) (overflow "hidden"))))
+        (Css:rule ((id idname1)) (position "relative") (width imgwidth) (height imgheight) (overflow "hidden")))
+        ; html:
+        (P:block (id idname1) (t fallback-text) (P:background-image (image image))))
 
 (context MAIN)

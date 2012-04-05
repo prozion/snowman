@@ -12,12 +12,12 @@
 # Now my view, how it should work in snowman
 
 # Call:
-; (P:marginal-graphic-dropcap (image-margin "30px") (image "tests/files/m.jpg") (fallback-text "M") "arginal Graphic Dropcap.")
+; (P:marginal-graphic-dropcap (image-margin "30px") (image "resources/tests/files/m.jpg") (fallback-text "M") "arginal Graphic Dropcap.")
 
 # Implementation:
 ; (P:left-marginal 
 ;   (margin-left <<image_width>> + <<margin_from_image>>) 
-;   (P:text-replacement (image "tests/files/m.jpg") (fallback-text "M"))
+;   (t (P:text-replacement (image "resources/tests/files/m.jpg") (fallback-text "M")))
 ;   (t "arginal Graphic Dropcap"))
 
 # P:left-marginal implementation:
@@ -25,7 +25,7 @@
 
 # P:text-replacement implementation:
 ; (P:inline (t "M")
-;   (P:background-image (image "tests/files/m.jpg")))
+;   (P:background-image (image "resources/tests/files/m.jpg")))
 
 # P:background-image implementation:
 ; (P:inline (width <<image_width>>) (height <<image_height>>))
@@ -41,7 +41,7 @@
 
 ; <div id="idname1"><span id="idname2">M<span id="idname3"></span></span>arginal Graphic Dropcap.</div>
 
-(P:marginal-graphic-dropcap (image-margin "30px") (image "tests/files/m.jpg") (fallback-text "M") "arginal Graphic Dropcap.")
+(P:marginal-graphic-dropcap (image-margin "30px") (image "resources/tests/files/m.jpg") (fallback-text "M") "arginal Graphic Dropcap.")
 
 (assert-like __html (format "<div id='(%s)'><span id='(%s)'>M<span id='(%s)'></span>arginal Graphic Dropcap.</div>\n" "s[0-9]+" "s[0-9]+" "s[0-9]+"))
 (setf idname1 (string "#" $1) idname2 (string "#" $2) idname3 (string "#" $3))

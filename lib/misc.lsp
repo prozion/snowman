@@ -3,9 +3,6 @@
 ; all the generated names to ensure we have unique name for each class or id
 (set '@gennames '())
 
-; sometimes it is more readable
-(define (return x) x)
-
 ; generate a name of css class or identificator
 (define (genname)
     (define (genstring)
@@ -13,13 +10,8 @@
     (do-until (empty? (filter (curry = (list classname)) @gennames))
         (set 'classname (append "s" (genstring))))
     (extend @gennames (list classname))
-    (return classname))
+    classname)
 (global 'genname)
-
-; detect the type of object
-(define-macro (type obj)
-    (println (map (fn(x) ((eval x) (eval obj))) 
-         '(array? atom? context? directory? empty? file? float? global? integer? lambda? legal? list? macro? nil? null? number? primitive? protected? quote? string? symbol? true? zero? ))))
 
 ; find a value in assoc list by a key
 (define (findval key assoc_list)
@@ -33,43 +25,12 @@
         (set 'res (string "-" astr)))
 res)
 
-; initialize in the form: (setl '(a b c) '(1 2 3))
-(define (setl vars values)
-    (dolist (_x vars)
-        (if (< $idx (length values))
-            (set (sym _x (prefix _x)) (values $idx)))))
-
-; initialize selected variables from the assoc-list
-; (setla '(a (b 10) d) '((a 1) (b 2) (c 3) (d 4)))
-(define (setla vars al)
-    (println "misc.lsp: setla: vars: " vars ", al: " al)
-    (dolist (_x vars)
-        (when (list? _x) 
-            (set '_val (eval (lookup (sym (term (_x 0))) al)))
-            (if (and (nil? _val) (> (length _x) 1)) ; if no corr. value in assoc-list and default value is given for a key 
-                (set (sym (_x 0) (prefix (_x 0))) (eval (_x 1)))
-                (set (sym (_x 0) (prefix (_x 0))) _val)))
-        (when (symbol? _x)
-            (set (sym _x (prefix _x)) (eval (lookup (sym (term _x)) al))))))       
-
 ; devised to transform args to assoc-list
 (define (assoc-list al)
     (set 'res '())
     (dolist (_x al)
         (extend res (list (push (first _x) (rest _x)))))
     res)
-
-; find string arguments (string literals or string variables) in the arg list
-(define (text-args)
-    (define (stringarg? obj)
-        (catch
-            (if (atom? obj) 
-                (string? (eval obj))
-                nil)
-        'res)
-        (= res true))
-    (join (map eval (filter stringarg? (args 0)))))
-(global 'text-args)
 
 (context 'P)
 

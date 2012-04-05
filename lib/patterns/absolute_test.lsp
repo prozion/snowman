@@ -21,7 +21,7 @@
 (setf __html "" __css "" $1 nil)
 
 ; EXP:
-(P:absolute (top "10px") (left "20px") "Sized Absolute")
+(P:absolute (top "10px") (left "20px") (t "Sized Absolute"))
 
 (assert-like __html "<div id='(s[0-9]+)'><span id='(s[0-9]+)'>Sized Absolute</span></div>")
 (setf idname1 (string "#" $1) idname2 (string "#" $2)) 

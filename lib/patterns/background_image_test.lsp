@@ -17,7 +17,7 @@
         (make-dir (format "%s/%s" @dir @imagedir))))
 
 ; EXP:
-(P:background-image (image "tests/files/heading2.jpg"))
+(P:background-image (image "resources/tests/files/heading2.jpg"))
 
 (assert-like __html "<span id='(s[0-9]+)'></span>")
 (set 'idname (string "#" $1))
