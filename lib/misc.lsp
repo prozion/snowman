@@ -5,12 +5,13 @@
 
 ; generate a name of css class or identificator
 (define (genname)
-    (define (genstring)
-         (string (abs (crc32 (string (now) 6)))))
-    (do-until (empty? (filter (curry = (list classname)) @gennames))
-        (set 'classname (append "s" (genstring))))
-    (extend @gennames (list classname))
-    classname)
+    (let (classname nil)
+        (define (genstring)
+            (string (abs (crc32 (string (now) 6)))))
+        (do-until (empty? (filter (curry = (list classname)) @gennames))
+            (set 'classname (append "s" (genstring))))
+        (extend @gennames (list classname))
+        classname))
 (global 'genname)
 
 ; find a value in assoc list by a key
@@ -78,27 +79,4 @@ res)
     (set 'nl (map (fn(x) (list (sym (term (x 0)) ctx) (eval (x 1)))) ll))
     (bind nl)) 
  
-; pattern comments wrap the html code of pattern:
-(define (start-comment pattern_name)
-    (if MAIN:@comments
-        (list (string "\n<!-- Start of " pattern_name " pattern -->") "" "" "")
-         ""))
-
-(define (end-comment pattern_name)
-    (if MAIN:@comments
-        (list (string "\n<!-- Start of " pattern_name " pattern -->") "" "" "")
-         ""))
-
-(define (append-buf l1 l2)
-    (set 'buf (map (fn(_l1 _l2) (extend _l1 _l2)) l1 l2)))
-
-; generate string: name1='value1' name2='value2' ...
-(define (tagstr li)
-    (set 'res "")
-    (dolist (_x li)
-        ;(println "inline.lsp: tagstr: _x: " _x ", (eval _x): " (eval _x))
-        (set '_val (eval _x))
-        (when (not (null? _val)) (extend res (string " " (term _x) "='" _val "'"))))
-    res)
-
 (context MAIN)

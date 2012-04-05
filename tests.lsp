@@ -5,7 +5,7 @@
 
 ;(set 'except '("marginal_graphic_dropcap_test.lsp" "text_replacement_test.lsp" "left_marginal_test.lsp")) ; which files don't include to the test
 (set 'except '())
-(set 'include '("inline_test.lsp" "block_test.lsp" "background_image_test.lsp" "absolute_test.lsp" "text_replacement_test.lsp" "left_marginal_test.lsp")) ;..or directly what files to test 
+(set 'include '("absolute_test.lsp"))
 (set (global 'SF) nil) ; successful flag: if true - print results of successful tests, nil - omit them
 (set '@test_total 0 '@test_ok 0 '@test_failed 0 '@test_files 0) ; global counters
 
@@ -25,13 +25,6 @@
                 (map (fn(x) (append dirname "/" x)) 
                     (clean (fn(x) (or (= ".." x) (= "." x))) 
                         (directory dirname)))))))
-    ;(set 'dirs (filter directory? (map (fn(x) (append dirname "/" x)) (directory dirname))))
-    ;(map run-in-dir (clean (fn(x) (or (= x "..") (= x "."))) dirs)))
-
-    ;(map run-in-dir 
-    ;    (map (fn(x) (append dirname "/" x))
-    ;        (clean (fn(x) (or (= x "..") (= x "."))) 
-    ;            (filter directory? (map (fn(x) (append dirname "/" x)) (directory dirname)))))))
 
 (run-in-dir ((exec "pwd") 0))
 
