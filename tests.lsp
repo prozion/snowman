@@ -5,7 +5,7 @@
 
 ;(set 'except '("marginal_graphic_dropcap_test.lsp" "text_replacement_test.lsp" "left_marginal_test.lsp")) ; which files don't include to the test
 (set 'except '())
-(set 'include '("absolute_test.lsp"))
+(set 'include '("inline_test.lsp" "block_test.lsp" "absolute_test.lsp" "background_image_test.lsp" "text_replacement_test.lsp" "left_marginal_test.lsp" "marginal_graphic_dropcap_test.lsp"))
 (set (global 'SF) nil) ; successful flag: if true - print results of successful tests, nil - omit them
 (set '@test_total 0 '@test_ok 0 '@test_failed 0 '@test_files 0) ; global counters
 

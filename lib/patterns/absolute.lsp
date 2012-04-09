@@ -14,16 +14,12 @@
 
 ; (P:absolute (top "10px") (left "20px") (t "Sized Absolute"))
 (define-macro (absolute)
-    (let (t "" top "0" left "0" txt "") 
-        ;(bind-vars (args))    
-        (set 
-            'top (eval (lookup 'top (args)))
-            'left (eval (lookup 'left (args)))
-            't (eval (lookup 't (args))))
+    (let (t "" top "0" left "0") 
+        (map set '(top left t) (bindl '("top" "left" "t") (args)))
+        (set 'css_list (css-list (args)))
+        (set '_t t)
 
-        (set 'txt t)
-
-        (block (css.position "relative") (inline (css.position "absolute") (css.top top) (css.left left) (t txt)))))
+        (block (css.position "relative") (inline (css.position "absolute") (css.top top) (css.left left) (t _t)))))
 
         ;(Css:rule ((id idname1)) (position "relative"))
         ;(Css:rule ((id idname2)) (position "absolute") (top top) (left left))))

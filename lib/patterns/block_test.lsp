@@ -73,6 +73,13 @@
 (assert-like __html "<div id='(s[0-9]+)'></div>") 
 (assert-like __css "#s([0-9])+ { margin:10px 20px 30px 40px; padding:10 30px; }\n")
 
+(set '__html "" '__css "" 'padding "10 10" 'margin '(string (* 10 2) " " "20px"))
+(P:block (css.margin margin) (css.padding padding))
+(assert-like __html "<div id='(s[0-9]+)'></div>") 
+(assert-like __css "#s([0-9])+ { margin:20 20px; padding:10 10; }\n")
 
-
-
+(set '__html "" '__css "" 'classname "classname2" 'padding "30px")
+(set 'expr '((css.margin "10px") (css.padding padding) (class "classname1") (t "outer") (P:inline (class classname) (t "inner"))))
+(P:block expr)
+(assert-like __html "<div class='classname1' id='(s[0-9]+)'>outer<span class='classname2'>inner</span></div>")
+(assert-like __css  "#s[0-9]+ { margin:10px; padding:30px; }\n")

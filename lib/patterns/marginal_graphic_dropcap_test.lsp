@@ -41,14 +41,21 @@
 
 ; <div id="idname1"><span id="idname2">M<span id="idname3"></span></span>arginal Graphic Dropcap.</div>
 
-(P:marginal-graphic-dropcap (image-margin "30px") (image "resources/tests/files/m.jpg") (fallback-text "M") "arginal Graphic Dropcap.")
+(P:marginal-graphic-dropcap (image-margin "30px") (image "resources/tests/files/m.jpg") (fallback-text "M") (t "arginal Graphic Dropcap."))
 
-(assert-like __html (format "<div id='(%s)'><span id='(%s)'>M<span id='(%s)'></span>arginal Graphic Dropcap.</div>\n" "s[0-9]+" "s[0-9]+" "s[0-9]+"))
-(setf idname1 (string "#" $1) idname2 (string "#" $2) idname3 (string "#" $3))
-(set 'css_str_1 (format "%s { position:relative; margin-left:150px; }\n" idname1))
-(set 'css_str_2 (format "%s { position:absolute; width:120px; height:90px; left:-120px; top:0 }\n" idname2))
-(set 'css_str_3 (format "%s { position:absolute; width:120px; height:90px; margin:0; left:0; top:0; background:url('m.jpg') no-repeat; }\n" idname3))
-(assert-equal __css (append css_str_1 css_str_2 css_str_3))
+(assert-like __html (format "<div id='(%s)'><div id='(%s)'><span id='(%s)'>M<span id='(%s)'></span></span></div>arginal Graphic Dropcap.</div>" "s[0-9]+" "s[0-9]+" "s[0-9]+" "s[0-9]+"))
+(setf idname1 (string "#" $1) idname2 (string "#" $2) idname3 (string "#" $3) idname4 (string "#" $4))
+(set 'css_str1 (format "%s { position:relative; margin-left:140px; }" idname1))
+(set 'css_str2 (format "%s { position:absolute; left:-140px; top:0; margin:0; }" idname2))
+(set 'css_str3 (format "%s { position:relative; width:110px; height:90px; overflow:hidden; }" idname3))
+(set 'css_str4 (format "%s { position:absolute; left:0; top:0; margin:0; width:110px; height:90px; background:url\\('%s/m.jpg'\\) no-repeat; }" idname4 @imagedir))
+
+
+(assert-like __css css_str1)
+(assert-like __css css_str2)
+(assert-like __css css_str3)
+(assert-like __css css_str4)
+
 
 
 

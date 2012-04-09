@@ -14,14 +14,15 @@
 
 ; (P:text-replacement (image "resources/tests/files/heading2.jpg") (fallback-text "Heading 2"))
 (define-macro (text-replacement)
-    (let (idname1 (genname) fallback-text "")
-        (bind-vars (args))
-        (set 'img (Img image))
+    (let (fallback-text "" _imgwidth 0 _imgheight 0)
+        (map set '(_image fallback-text) (bindl '("image" "fallback-text") (args)))
+        (set 'img (Img _image))
         (:save-image img)
-        (setf imgwidth (string (:get-width img) "px")  imgheight (string (:get-height img) "px"))
-        ; css:
-        (Css:rule ((id idname1)) (position "relative") (width imgwidth) (height imgheight) (overflow "hidden")))
-        ; html:
-        (P:block (id idname1) (t fallback-text) (P:background-image (image image))))
+        (setf _imgwidth (string (:get-width img) "px") _imgheight (string (:get-height img) "px"))
+
+        ; Note how css properties come first, before native properties for the pattern. It is a rule:
+        (P:inline 
+            (css.position "relative") (css.width _imgwidth) (css.height _imgheight) (css.overflow "hidden")
+            (t fallback-text) (P:background-image (css.position "absolute") (css.left 0) (css.top 0) (image _image)))))
 
 (context MAIN)

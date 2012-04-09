@@ -34,21 +34,24 @@
 (set (global '@title) "Snowman generator")
 
 ; (base (@dir "tmp") (P:background-image (image "image.jpg")))
-(define-macro (base)
-    ;(set '__img nil)
+(define-macro (base)    
+  (set 'arglst (map P:unquote (args))) ; expand the variable
+    (unless (null? arglst)
+        (if (list? (arglst 0 0)) (set 'arglst (arglst 0)))) ; in the case of passed-in variable, remove extra brackets after expanding
 
     (constant 'BASE_HTML_FILE "resources/templates/html/base.html")
     (constant 'RESET_CSS_FILE "resources/templates/css/reset.css")
     (set '@gennames '())
-    (set '@comments true) ; comments on/off    
 
     ; read (key value)'s from the body of base, that are not functions         
-    (bind (clean P:function? (clean string? (args))))
+    (bind (clean P:function? (clean string? arglst)))
 
     (extend __css (read-file RESET_CSS_FILE))
 
+    (set '@dir (string ((exec "echo $HOME") 0) "/" @dir))
+
     ; eval cycle
-    (map eval (filter P:function? (args)))
+    (map eval (filter P:function? arglst))
                 
     (set 'html_base (read-file BASE_HTML_FILE))
     (replace "\\[LANG\\]" html_base @lang 1)

@@ -1,25 +1,13 @@
 #!/usr/bin/newlisp -c
 
 (load "lib/base.lsp")
-(load "lib/patterns/background_image.lsp")
+(load "lib/patterns/marginal_graphic_dropcap.lsp")
 
 (base
-    (@dir "tmp1")
-    (@stylesheet "styles.css")
-    (@title "Testing")
-    (P:background-image
-        (image "tests/files/heading2.jpg")))
+    (@dir "tmp/snowman_template")
+    (@title "My marginal graphic dropcap")
+    (P:marginal-graphic-dropcap 
+        (image-margin "30px") (image "resources/tests/files/m.jpg") (fallback-text "M") (t "arginal Graphic Dropcap.")))
 
-;(base 
-;    '((dir "tmp1") (stylesheet "styles.css") (title "Testing"))
-;    (background-image 
-;        '((title "Background Image") (image "/home/denis/tmp/heading2.jpg") ))
-;    (absolute  
-;       '((top "10px") (left "10px") (width "100px") (height "50px") (text_inner "Inner") (text_outer "Outer")))
-;    (text-replacement 
-;        '((image "/home/denis/tmp/heading2.jpg") (text "Heading 2")))
-;    (left-marginal
-;        '((margin "200px"))
-;        "You want to excerpt an element and move it into the left margin."))
 
 

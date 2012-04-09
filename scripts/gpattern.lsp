@@ -35,7 +35,8 @@
 ; %s
 (define-macro (%s)
     (let (idname1 (genname) t "")
-        (bind-vars (args))
+        (map set '(t) (bindl '("t") (args)))
+        (set 'css_list (css-list (args)))
         ; html:
         %s))
 

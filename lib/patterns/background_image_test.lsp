@@ -22,7 +22,7 @@
 (assert-like __html "<span id='(s[0-9]+)'></span>")
 (set 'idname (string "#" $1))
 ;; important! there is \n in the end of css rule, set it here too!
-(set 'css_str (string idname " { background:url('" @imagedir "/heading2.jpg') no-repeat; width:250px; height:76px; }\n"))
+(set 'css_str (string idname " { margin:0; width:250px; height:76px; background:url('" @imagedir "/heading2.jpg') no-repeat; }\n"))
 (assert-equal __css css_str)
 (assert-true (file? (format "%s/%s/%s" @dir @imagedir "heading2.jpg")))
 

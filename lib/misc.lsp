@@ -20,6 +20,7 @@
     (return retval))
 
 ; negate value written in string
+(global 'neg)
 (define (neg astr)
     (if (= (astr 0) "-") 
         (set 'res (1 astr))
@@ -79,4 +80,36 @@ res)
     (set 'nl (map (fn(x) (list (sym (term (x 0)) ctx) (eval (x 1)))) ll))
     (bind nl)) 
  
+(define (full-eval s)
+    (do-while (or (quote? s) (list? s)) (set 's (eval s)))
+    s)
+
+(define (unquote s)
+    (while (or (quote? s) (symbol? s)) (set 's (eval s)))
+    s)
+
+(define (bindl varl assocl)
+     (map 
+        (fn(x) (full-eval (lookup x (map 
+                                    (fn(x) (list (term (x 0)) (x 1))) 
+                                    (filter 
+                                        (fn(x) (and (list? x) (> (length x) 1))) 
+                                        assocl)))))
+        varl))
+        
+(define (css-list lst)
+    (map (fn(x) (list (x 0) (full-eval (x 1)))) (filter (fn(x) (find "css\.(.+)$" (string (x 0)) 0)) (filter list? lst))))
+     
+(define (css-str lst)
+    (let (css_str "")
+        (set 'css_str 
+            (dolist (x (css-list lst)) 
+                (set 'css_str (append 
+                                    css_str 
+                                    (format "(%s %s)" (string (x 0)) (string (x 1)))))))
+
+        (if (null? css_str) (set 'css_str ""))
+        css_str))
+
+
 (context MAIN)

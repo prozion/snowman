@@ -11,16 +11,22 @@
 ;; (background-image (image "heading2.jpg"))
 (context 'P)
 (define-macro (background-image)
-    (let (idname1 (genname))
-        (bind-vars (args))
+    (let (_arglst "" image "" _background "" _width "0" _height "0")
+        (map set '(image) (bindl '("image") (args)))
+        (set 'css_str (css-str (args)))
 
         (set 'img (Img image))
         (:save-image img)
 
-        (map set '(width height) (map (fn(x) (string (eval x) "px")) (list (:get-width img) (:get-height img))))
+        (map set '(_width _height) (map (fn(x) (string (eval x) "px")) (list (:get-width img) (:get-height img))))
+        (set '_background (format "url('%s') no-repeat" (:get-path img)))
 
-        (inline (id idname1))
+        (set '_arglst
+            (clean null? 
+                (extend 
+                    (css-list (args))
+                    '((css.margin "0") (css.width _width) (css.height _height) (css.background _background)))))
 
-        (Css:rule ((id idname1)) (background (Css:path (:get-path img)) "no-repeat") (width width) (height height))))
+        (inline _arglst))) 
 
 (context MAIN)
