@@ -48,7 +48,8 @@
 
     (extend __css (read-file RESET_CSS_FILE))
 
-    (set '@dir (string ((exec "echo $HOME") 0) "/" @dir))
+    ; full path:
+    (unless (= (first @dir) "/") (set '@dir (append (env "HOME") "/" @dir)))
 
     ; eval cycle
     (map eval (filter P:function? arglst))

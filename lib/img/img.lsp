@@ -24,8 +24,8 @@
     (list width height))
 
 ;; public
-(define (save-image)
-    (copy-file (self 1) (string @dir "/" (self 4))))
+(define (save-image , imgpath)
+    (copy-file (self 1) (append @dir "/" (self 4))))
 
 (define (get-width)
     (self 2))
