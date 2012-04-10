@@ -8,7 +8,6 @@
 
 (load "lib/patterns/block.lsp")
 (load "lib/patterns/background_image.lsp")
-(load "lib/css.lsp")
 
 (context 'P)
 

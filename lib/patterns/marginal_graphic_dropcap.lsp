@@ -1,6 +1,4 @@
 (load "lib/misc.lsp")
-(load "lib/css.lsp")
-
 (load "lib/img/img.lsp") ; required to calculate width of the image
 (load "lib/patterns/left_marginal.lsp")
 (load "lib/patterns/text_replacement.lsp")

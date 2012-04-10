@@ -6,7 +6,6 @@
 
 (load "lib/patterns/block.lsp")
 (new Class 'Img) (load "lib/patterns/background_image.lsp")
-(load "lib/css.lsp")
 
 (setf __html "" __css "" @dir "testdir" @imagedir "image") 
 
