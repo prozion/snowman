@@ -32,19 +32,21 @@
     ; full path:
     (unless (= (first @dir) "/") (set '@dir (append (env "HOME") "/" @dir)))
 
+    (make-dir @dir)
+    (make-dir (string @dir "/" @imagedir))
+
     ; eval cycle
     (map eval (filter P:function? arglst))
                 
-    (set 'document_type {html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"})
+    (set 'document_type_str 
+        (cond
+            ((= @doctype "XHTML") XHTML_DOCTYPE)
+            ((= @doctype "HTML") HTML_DOCTYPE)
+            ((= @doctype "HTML5") HTML5_DOCTYPE)))
 
     (set 'html_base (read-file BASE_HTML_FILE))
-    (set 'html_res (format html_base document_type @lang @lang @title @stylesheet __html))
+    (set 'html_res (format html_base document_type_str @lang @lang @title @stylesheet __html))
 
-    (make-dir @dir)
-    (make-dir (string @dir "/" @imagedir))
-    ;(dolist (i __img)
-    ;   (copy-file (i 0) (string @dir "/" (i 1))))
-    
     (write-file (string @dir "/" @html_file) html_res)
     (write-file (string @dir "/" @stylesheet) __css)
     ;(write-file (string @dir "/" @js_file) __js)
