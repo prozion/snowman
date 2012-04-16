@@ -17,7 +17,7 @@
 (load "lib/misc.lsp")
 
 ; (base (@dir "tmp") (P:background-image (image "image.jpg")))
-(define-macro (base)    
+(define-macro (base , htmlns)    
   (set 'arglst (map P:unquote (args))) ; expand the variable
     (unless (null? arglst)
         (if (list? (arglst 0 0)) (set 'arglst (arglst 0)))) ; in the case of passed-in variable, remove extra brackets after expanding
@@ -38,14 +38,18 @@
     ; eval cycle
     (map eval (filter P:function? arglst))
                 
+    (set 'htmlns "")
     (set 'document_type_str 
         (cond
-            ((= @doctype "XHTML") XHTML_DOCTYPE)
+            ((= @doctype "HTML_AS") HTML_AS_DOCTYPE)
             ((= @doctype "HTML") HTML_DOCTYPE)
+            ((= @doctype "XHTML") 
+                (set 'htmlns (format { xmlns="http://www.w3.org/1999/xhtml" xml:lang="%s" lang="%s"} @lang @lang)) 
+                XHTML_DOCTYPE)
             ((= @doctype "HTML5") HTML5_DOCTYPE)))
 
     (set 'html_base (read-file BASE_HTML_FILE))
-    (set 'html_res (format html_base document_type_str @lang @lang @title @stylesheet __html))
+    (set 'html_res (format html_base document_type_str htmlns @title @stylesheet __html))
 
     (write-file (string @dir "/" @html_file) html_res)
     (write-file (string @dir "/" @stylesheet) __css)

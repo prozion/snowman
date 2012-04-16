@@ -4,8 +4,13 @@
 (constant (global 'RESET_CSS_FILE) "resources/templates/css/reset.css")
 
 (constant (global 'HTML) "-//W3C//DTD HTML 4.01 Transitional//EN")
-(constant (global 'HTML_DTD) "http://www.w3.org/TR/html4/loose.dtd")
+(constant (global 'HTML_DTD) "http://www.w3.org/TR/html4/strict.dtd")
 (constant (global 'HTML_DOCTYPE) (format {html PUBLIC "%s" "%s"} HTML HTML_DTD))  
+
+; Almost Standard mode ( http://hsivonen.iki.fi/doctype )
+(constant (global 'HTML_AS) "-//W3C//DTD HTML 4.01 Transitional//EN")
+(constant (global 'HTML_AS_DTD) "http://www.w3.org/TR/html4/loose.dtd")
+(constant (global 'HTML_AS_DOCTYPE) (format {html PUBLIC "%s" "%s"} HTML_AS HTML_AS_DTD))  
 
 (constant (global 'XHTML) "-//W3C//DTD XHTML 1.0 Transitional//EN")
 (constant (global 'XHTML_DTD) "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
