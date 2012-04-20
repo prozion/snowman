@@ -1,4 +1,4 @@
 
-1. (some-pattern (t "text 1") (some-block-pattern ...) (t "text 2")) - implicitly wrap (t ..) with block element to avoid "mixed content" and anonymous blocks (p.51) 
+1. (some-pattern (t "text 1") (some-block-pattern ...) (t "text 2")) - explicitly wrap (t ..) with block element to avoid "mixed content" and anonymous blocks (p.51) 
 PRIORITY: low
 

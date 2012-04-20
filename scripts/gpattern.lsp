@@ -30,18 +30,38 @@
 ;
 %s
 
+; (load "") ; load patterns used in subpattern expression
+
 (context 'P)
 
-; %s
+# %s
 (define-macro (%s)
-    (let (idname1 (genname) t "")
-        (map set '(t) (bindl '("t") (args)))
-        (set 'css_list (css-list (args)))
-        ; html:
+    ; local variables, those starting with '_' are corresponded to parameters of macro:
+    (let (_t "" csslst nil)
+        
+        ; read parameters:
+        (map set '(_t) (bindl '("t") (args)))
+
+        ; collect css parameters into the separate list:
+        (set 'csslst (css-list (args)))
+
+        ; if neccessary, add extra css parameters:
+        ; (set 'csslst
+        ;    (clean null? 
+        ;        (extend 
+        ;            (css-list (args))
+        ;            '((css.par1 "0") (css.par2 _par2)))))
+
+        ; subpattern perhaps with (some_pattern csslst) or (t _t):
         %s))
 
 (context MAIN)
 })
+
+    (let (fallback-text "" _imgwidth 0 _imgheight 0)
+        (map set '(_image fallback-text) (bindl '("image" "fallback-text") (args)))
+        (set 'img (Img _image))
+ 
 
 ; helper functions:
 (define (commentify str)
