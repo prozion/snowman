@@ -90,7 +90,7 @@
             (set 'function_name (replace { } (lower-case name) "_"))
             (set 'filename (string function_name ".lsp"))
             (set 'filepath (string "lib/patterns/" function_name ".lsp"))
-            (set 'testfilepath (string "tests/" function_name "_test.lsp"))
+            (set 'testfilepath (string "lib/patterns/" function_name "_test.lsp"))
             (if-not (or (file? filepath) (file? testfilepath))
                 (begin
                     (write-file testfilepath (format test_template name (string page) (commentify html) (commentify css) filename (string example) html css))
