@@ -14,11 +14,11 @@ The script will generate the templates, in each case for certain CMS, for exampl
 
 Snowman introduces patching mechanism implemented by "carrots". Carrot is a snippet of html code of a form:
 
-    &lt;!-- ooOoo: menu_placeholder --&gt;
-    &lt;!-- ooO: carrot_name -->&gt;
+    <!-- ooOoo: menu_placeholder -->
+    <!-- ooO: carrot_name -->
       ..html code here..
-    &lt;!-- /ooO: carrot_name --&gt;
-    &lt;!-- /ooOoo: menu_placeholder --&gt;
+    <!-- /ooO: carrot_name -->
+    <!-- /ooOoo: menu_placeholder -->
 
 html code inside the comments can be altered already after generation of template structure and code. Also carroting can be used as an utility tool for html designer, that manually codes websites, but wants to avoid repetitional work. For example, if website has uniform menu on a several pages it requires several changes done if, say, address of some link in menu changed. With carroting we generate menu by the code:
 
